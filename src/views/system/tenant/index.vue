@@ -970,7 +970,7 @@ async function fetchPlanOptions() {
   const options = await TenantPlanAPI.getOptions();
   planOptions.value = options.map((item) => ({
     ...item,
-    value: item.value != null ? Number(item.value) : item.value,
+    value: item.value != null ? Number(item.value) : item.valuye,
   }));
 }
 </script>
