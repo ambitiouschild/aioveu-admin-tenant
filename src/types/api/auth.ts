@@ -5,7 +5,7 @@
 /**
  * 登录请求参数
  */
-export interface pnpmLoginRequest {
+export interface LoginRequest {
   /** 用户名 */
   username: string;
   /** 密码 */
