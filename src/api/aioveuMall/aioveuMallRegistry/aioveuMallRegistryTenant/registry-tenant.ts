@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { RegistryTenantForm, RegistryTenantPageQuery, RegistryTenantPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const REGISTRY_TENANT_BASE_URL = "/api/v1/registry-tenant";
+const REGISTRY_TENANT_BASE_URL = "/aioveu-tenant-registry/api/v1/registry-tenant";
 
 const RegistryTenantAPI = {
     /** 获取租户注册小程序基本信息分页数据 */

@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { RegistryCertificationContactForm, RegistryCertificationContactPageQuery, RegistryCertificationContactPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const REGISTRY_CERTIFICATION_CONTACT_BASE_URL = "/api/v1/registry-certification-contact";
+const REGISTRY_CERTIFICATION_CONTACT_BASE_URL = "/aioveu-tenant-registry/api/v1/registry-certification-contact";
 
 const RegistryCertificationContactAPI = {
     /** 获取认证联系人分页数据 */

@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { RegistryAdministratorInfoForm, RegistryAdministratorInfoPageQuery, RegistryAdministratorInfoPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const REGISTRY_ADMINISTRATOR_INFO_BASE_URL = "/api/v1/registry-administrator-info";
+const REGISTRY_ADMINISTRATOR_INFO_BASE_URL = "/aioveu-tenant-registry/api/v1/registry-administrator-info";
 
 const RegistryAdministratorInfoAPI = {
     /** 获取管理员信息分页数据 */

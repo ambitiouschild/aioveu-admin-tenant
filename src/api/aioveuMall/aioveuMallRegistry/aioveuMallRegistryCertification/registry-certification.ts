@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { RegistryCertificationForm, RegistryCertificationPageQuery, RegistryCertificationPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const REGISTRY_CERTIFICATION_BASE_URL = "/api/v1/registry-certification";
+const REGISTRY_CERTIFICATION_BASE_URL = "/aioveu-tenant-registry/api/v1/registry-certification";
 
 const RegistryCertificationAPI = {
     /** 获取认证记录分页数据 */

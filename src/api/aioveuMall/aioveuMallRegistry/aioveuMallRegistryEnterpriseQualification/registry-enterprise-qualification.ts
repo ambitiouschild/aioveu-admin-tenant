@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { RegistryEnterpriseQualificationForm, RegistryEnterpriseQualificationPageQuery, RegistryEnterpriseQualificationPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const REGISTRY_ENTERPRISE_QUALIFICATION_BASE_URL = "/api/v1/registry-enterprise-qualification";
+const REGISTRY_ENTERPRISE_QUALIFICATION_BASE_URL = "/aioveu-tenant-registry/api/v1/registry-enterprise-qualification";
 
 const RegistryEnterpriseQualificationAPI = {
     /** 获取企业资质分页数据 */

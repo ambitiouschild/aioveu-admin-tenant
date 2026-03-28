@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { RegistryAppAccountForm, RegistryAppAccountPageQuery, RegistryAppAccountPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const REGISTRY_APP_ACCOUNT_BASE_URL = "/api/v1/registry-app-account";
+const REGISTRY_APP_ACCOUNT_BASE_URL = "/aioveu-tenant-registry/api/v1/registry-app-account";
 
 const RegistryAppAccountAPI = {
     /** 获取小程序账号分页数据 */

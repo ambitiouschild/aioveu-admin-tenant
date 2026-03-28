@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { RegistryOperationLogForm, RegistryOperationLogPageQuery, RegistryOperationLogPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const REGISTRY_OPERATION_LOG_BASE_URL = "/api/v1/registry-operation-log";
+const REGISTRY_OPERATION_LOG_BASE_URL = "/aioveu-tenant-registry/api/v1/registry-operation-log";
 
 const RegistryOperationLogAPI = {
     /** 获取操作日志分页数据 */

@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { RegistryInvoiceInfoForm, RegistryInvoiceInfoPageQuery, RegistryInvoiceInfoPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const REGISTRY_INVOICE_INFO_BASE_URL = "/api/v1/registry-invoice-info";
+const REGISTRY_INVOICE_INFO_BASE_URL = "/aioveu-tenant-registry/api/v1/registry-invoice-info";
 
 const RegistryInvoiceInfoAPI = {
     /** 获取发票信息分页数据 */

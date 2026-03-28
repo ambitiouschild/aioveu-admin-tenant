@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { RegistryAppFilingRecordForm, RegistryAppFilingRecordPageQuery, RegistryAppFilingRecordPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const REGISTRY_APP_FILING_RECORD_BASE_URL = "/api/v1/registry-app-filing-record";
+const REGISTRY_APP_FILING_RECORD_BASE_URL = "/aioveu-tenant-registry/api/v1/registry-app-filing-record";
 
 const RegistryAppFilingRecordAPI = {
     /** 获取小程序备案记录分页数据 */
