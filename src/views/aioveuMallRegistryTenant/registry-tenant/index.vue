@@ -62,6 +62,18 @@ const searchConfig: ISearchConfig = reactive({
   permPrefix: "aioveuMallRegistryTenant:registry-tenant",
   formItems: [
     {
+      type: "select",  // 改为select类型
+      label: "租户",
+      prop: "tenantId",  // 保持prop为tenantId
+      attrs: {
+        placeholder: "请选择租户",
+        clearable: true,
+        filterable: true,  // 可搜索
+        style: { width: "200px" },
+        options: []  // 动态加载租户选项
+      },
+    },
+    {
       type: "input",
       label: "租户ID",
       prop: "tenantId",
@@ -265,5 +277,41 @@ const handleOperateClick = (data: IObject) => {
 const handleToolbarClick = (name: string) => {
   console.log(name);
 };
+
+
+// 租户选项
+const tenantOptions = ref<Array<{label: string, value: string}>>([]);
+
+// 加载租户列表
+const loadTenantOptions = async () => {
+  try {
+    // 调用租户列表接口
+    const response = await TenantAPI.getTenantList({
+      pageSize: 1000,  // 获取所有租户
+      currentPage: 1
+    });
+
+    tenantOptions.value = response.data.list.map((tenant: any) => ({
+      label: `${tenant.tenantName} (${tenant.tenantCode})`,  // 显示名称和编码
+      value: tenant.id  // 值仍然是租户ID
+    }));
+
+    // 将选项设置到搜索配置中
+    const tenantSearchItem = searchConfig.formItems.find(
+      (item: any) => item.prop === 'tenantId'
+    );
+    if (tenantSearchItem && tenantSearchItem.attrs) {
+      tenantSearchItem.attrs.options = tenantOptions.value;
+    }
+  } catch (error) {
+    console.error('加载租户列表失败:', error);
+  }
+};
+
+// 在组件挂载时加载租户选项
+onMounted(() => {
+  loadTenantOptions();
+});
+
 
 </script>
