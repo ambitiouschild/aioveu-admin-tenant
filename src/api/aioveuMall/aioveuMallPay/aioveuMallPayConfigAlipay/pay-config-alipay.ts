@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { PayConfigAlipayForm, PayConfigAlipayPageQuery, PayConfigAlipayPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const PAY_CONFIG_ALIPAY_BASE_URL = "/api/v1/pay-config-alipay";
+const PAY_CONFIG_ALIPAY_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-config-alipay";
 
 const PayConfigAlipayAPI = {
     /** 获取支付宝支付配置分页数据 */

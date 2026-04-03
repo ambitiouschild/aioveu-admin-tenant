@@ -176,10 +176,10 @@ const contentConfig: IContentConfig<PayConfigWechatPageQuery> = reactive({
     { label: "商户API密钥V2", prop: "mchKey" },
     { label: "APIv3密钥(32位字符)", prop: "apiV3Key" },
     { label: "商户证书序列号", prop: "mchSerialNo" },
-    { label: "商户私钥内容(PKCS#8格式)", prop: "privateKey" },
+    { label: "商户私钥内容(PKCS#8格式)", width: 1320, prop: "privateKey" },
     { label: "商户私钥文件路径", prop: "privateKeyPath" },
     { label: "微信支付公钥ID", prop: "wechatpayPublicKeyId" },
-    { label: "微信支付公钥内容", prop: "wechatpayPublicKey" },
+    { label: "微信支付公钥内容", width: 320, prop: "wechatpayPublicKey" },
     { label: "微信支付公钥文件路径", prop: "wechatpayPublicKeyPath" },
     { label: "平台证书序列号", prop: "platformCertSerialNo" },
     { label: "平台证书文件路径", prop: "platformCertPath" },
@@ -223,7 +223,7 @@ const addModalConfig: IModalConfig<PayConfigWechatForm> = reactive({
     draggable: true,
   },
   form: {
-    labelWidth: 100,
+    labelWidth: 300,
   },
   // 表单项配置
   formItems: [
@@ -485,7 +485,7 @@ const editModalConfig: IModalConfig<PayConfigWechatForm> = reactive({
   component: "drawer",
   drawer: {
     title: "编辑",
-    size: 500,
+    size: 1500,
   },
   pk: "id",
   formAction(data: any) {
