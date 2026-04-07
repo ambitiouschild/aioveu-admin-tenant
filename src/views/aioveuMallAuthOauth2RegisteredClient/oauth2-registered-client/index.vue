@@ -195,30 +195,36 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
   },
   form: {
     labelWidth: 100,
+    labelPosition: 'top', // 标签置顶，更适合宽表单
   },
   // 表单项配置
   formItems: [
-    {
-      type: "input",
-      attrs: {
-        placeholder: "客户端记录的唯一标识符，通常是UUID"
-      },
-      label: "客户端记录的唯一标识符，通常是UUID",
-      prop: "id",
-    },
+    // {
+    //   type: "input",
+    //   attrs: {
+    //     placeholder: "客户端记录的唯一标识符，通常是UUID"
+    //   },
+    //   label: "客户端记录的唯一标识符，通常是UUID",
+    //   prop: "id",
+    // },
     {
       type: "input",
       attrs: {
         placeholder: "客户端标识符，OAuth2请求中使用的client_id"
       },
       rules: [{ required: true, message: "客户端标识符，OAuth2请求中使用的client_id不能为空", trigger: "blur" }],
-      label: "客户端标识符，OAuth2请求中使用的client_id",
+      label: "客户端标识符，OAuth2请求中使用的client_id【xinhuan-app】",
       prop: "clientId",
     },
     {
-      type: "input",
+      type: "date-picker",   // 修改为date-picker类型
       attrs: {
-        placeholder: "客户端ID的创建时间"
+        type: "datetime",  // 日期时间选择器
+        placeholder: "客户端ID的创建时间",
+        "value-format": "YYYY-MM-DD HH:mm:ss",  // 绑定值格式
+        "format": "YYYY-MM-DD HH:mm:ss",  // 显示格式
+        style: "width: 100%",  // 宽度100%
+        clearable: true  // 可清空
       },
       rules: [{ required: true, message: "客户端ID的创建时间不能为空", trigger: "blur" }],
       label: "客户端ID的创建时间",
@@ -229,7 +235,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
       attrs: {
         placeholder: "客户端密钥，已加密存储。公共客户端可为NULL"
       },
-      label: "客户端密钥，已加密存储。公共客户端可为NULL",
+      label: "客户端密钥，已加密存储。公共客户端可为NULL【123456】",
       prop: "clientSecret",
     },
     {
@@ -246,7 +252,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
         placeholder: "客户端显示名称，用于用户界面显示"
       },
       rules: [{ required: true, message: "客户端显示名称，用于用户界面显示不能为空", trigger: "blur" }],
-      label: "客户端显示名称，用于用户界面显示",
+      label: "客户端显示名称，用于用户界面显示【可我不敌心欢】",
       prop: "clientName",
     },
     {
@@ -254,7 +260,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
       attrs: {
         placeholder: "支持的客户端认证方法，JSON格式数组。"
       },
-      label: "支持的客户端认证方法，JSON格式数组。",
+      label: "支持的客户端认证方法，JSON格式数组。【client_secret_basic】",
       prop: "clientAuthenticationMethods",
     },
     {
@@ -262,7 +268,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
       attrs: {
         placeholder: "支持的授权类型，JSON格式数组。"
       },
-      label: "支持的授权类型，JSON格式数组。",
+      label: "支持的授权类型，JSON格式数组。【refresh_token,client_credentials,authorization_code,sms_code,wechat】",
       prop: "authorizationGrantTypes",
     },
     {
@@ -270,7 +276,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
       attrs: {
         placeholder: "允许的重定向URI列表，JSON格式数组。必须与授权请求中的redirect_uri完全匹配"
       },
-      label: "允许的重定向URI列表，JSON格式数组。必须与授权请求中的redirect_uri完全匹配",
+      label: "允许的重定向URI列表，JSON格式数组。必须与授权请求中的redirect_uri完全匹配【http://127.0.0.1:8080/authorized】",
       prop: "redirectUris",
     },
     {
@@ -278,7 +284,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
       attrs: {
         placeholder: "登出后的重定向URI列表，JSON格式数组"
       },
-      label: "登出后的重定向URI列表，JSON格式数组",
+      label: "登出后的重定向URI列表，JSON格式数组【http://127.0.0.1:8080/logged-out】",
       prop: "postLogoutRedirectUris",
     },
     {
@@ -286,7 +292,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
       attrs: {
         placeholder: "客户端可请求的范围列表，JSON格式数组。"
       },
-      label: "客户端可请求的范围列表，JSON格式数组。",
+      label: "客户端可请求的范围列表，JSON格式数组。【openid,profile】",
       prop: "scopes",
     },
     {

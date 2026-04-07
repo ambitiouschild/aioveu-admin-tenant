@@ -194,18 +194,19 @@ const addModalConfig: IModalConfig<Oauth2AuthorizationForm> = reactive({
     draggable: true,
   },
   form: {
-    labelWidth: 100,
+    labelWidth: 140,
+    labelPosition: 'top', // 标签置顶，更适合宽表单
   },
   // 表单项配置
   formItems: [
-    {
-      type: "input",
-      attrs: {
-        placeholder: "授权记录的唯一标识符，通常是UUID"
-      },
-      label: "授权记录的唯一标识符，通常是UUID",
-      prop: "id",
-    },
+    // {
+    //   type: "input",
+    //   attrs: {
+    //     placeholder: "授权记录的唯一标识符，通常是UUID"
+    //   },
+    //   label: "授权记录的唯一标识符，通常是UUID",
+    //   prop: "id",
+    // },
     {
       type: "input",
       attrs: {
