@@ -264,13 +264,13 @@
         <!--          <el-input v-model="formData.id" placeholder="主键ID" />-->
         <!--        </el-form-item>-->
 
-        <!--        <el-form-item label="关联广告ID" prop="advertId">-->
-        <!--          <el-input v-model="formData.advertId" placeholder="关联广告ID（sms_advert表）" />-->
-        <!--        </el-form-item>-->
+                <el-form-item label="关联广告ID" prop="advertId">
+                  <el-input v-model="formData.advertId" placeholder="关联广告ID（sms_advert表）" />
+                </el-form-item>
 
-        <el-form-item label="广告图标" prop="homeAdvertIcon">
-          <el-input v-model="formData.homeAdvertIcon" placeholder="广告图标" />
-        </el-form-item>
+<!--        <el-form-item label="广告图标" prop="homeAdvertIcon">-->
+<!--          <el-input v-model="formData.homeAdvertIcon" placeholder="广告图标" />-->
+<!--        </el-form-item>-->
 
         <el-form-item label="广告图标">
           <SingleImageUpload
