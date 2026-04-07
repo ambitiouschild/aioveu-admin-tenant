@@ -2,6 +2,16 @@
   <div class="app-container">
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
+
+        <el-form-item label="订单号" prop="orderSn">
+          <el-input
+            v-model="queryParams.orderSn"
+            placeholder="订单号"
+            clearable
+            @keyup.enter="handleQuery()"
+          />
+        </el-form-item>
+
                 <el-form-item label="商品名称" prop="spuName">
                       <el-input
                           v-model="queryParams.spuName"
@@ -83,6 +93,15 @@
                         min-width="150"
                         align="center"
                     />
+
+        <el-table-column
+          key="orderId"
+          label="订单号"
+          prop="orderSn"
+          min-width="200"
+          align="center"
+        />
+
                     <el-table-column label="商品名称" width="150" align="center">
                       <template #default="scope">
                         <DictLabel v-model="scope.row.spuName" code="gender" />
@@ -197,10 +216,53 @@
     <el-dialog
         v-model="dialog.visible"
         :title="dialog.title"
-        width="500px"
+        width="600px"
         @close="handleCloseDialog"
     >
       <el-form ref="dataFormRef" :model="formData" :rules="rules" label-width="100px">
+
+                <!-- 订单选择器 -->
+                <el-form-item label="订单" prop="orderId">
+                  <el-select
+                    v-model="formData.orderId"
+                    placeholder="请输入订单号搜索"
+                    clearable
+                    filterable
+                    remote
+                    :remote-method="searchOptions"
+                    :loading="searchLoading"
+                    style="width: 100%"
+                    @change="handleOptionChange"
+                  >
+
+                    <!-- 搜索时显示加载 -->
+                    <template v-if="searchLoading">
+                      <el-option disabled :value="loading" label="搜索中..."></el-option>
+                    </template>
+
+
+                    <!-- 添加空选项提示 -->
+                    <el-option v-if="!searchLoading && options.length === 0" disabled label="暂无数据" value="" />
+
+                    <el-option
+                      v-for="item in options"
+                      :key="item.id"
+                      :label="item.orderSn"
+                      :value="item.id"
+                    />
+                  </el-select>
+
+                </el-form-item>
+
+
+
+
+
+
+
+
+
+
                 <el-form-item label="商品名称" prop="spuName">
                       <el-input
                           v-model="formData.spuName"
@@ -284,12 +346,19 @@
 
   import OmsOrderItemAPI, { OmsOrderItemPageVO, OmsOrderItemForm, OmsOrderItemPageQuery } from "@/api/aioveuMall/aioveuMallOms/aioveuMallOmsOrderItem/oms-order-item";
 
+  import OmsOrderAPI, { OmsOrderPageVO, OmsOrderForm, OmsOrderPageQuery  } from "@/api/aioveuMall/aioveuMallOms/aioveuMallOmsOrder/oms-order";
+
   const queryFormRef = ref();
   const dataFormRef = ref();
 
   const loading = ref(false);
   const removeIds = ref<number[]>([]);
   const total = ref(0);
+
+  // 订单选择器相关
+  const options = ref<OmsOrderPageVO[]>([]);
+  const searchLoading = ref(false);
+  const currentOrderInfo = ref<OmsOrderPageVO | null>(null); // 当前选中的订单信息
 
   const queryParams = reactive<OmsOrderItemPageQuery>({
     pageNum: 1,
@@ -318,11 +387,113 @@
                       totalAmount: [{ required: true, message: "请输入商品总价(单位：分)", trigger: "blur" }],
   });
 
+
+  const handleOptionChange = (value: any) => {
+
+// 如果选中的是 null 或 undefined，则不处理
+    if (value === null || value === undefined) {
+      return;
+    }
+
+    const orderId = Number(value);
+    if (!orderId) {
+      formData.orderSn = '';
+      currentOrderInfo.value = null;
+      return;
+    }
+
+    console.info('处理选择变化:{}');
+
+    const selected = options.value.find(item => item.id === orderId)
+
+    console.info('获取订单详情:{}', selected);
+
+    if (selected) {
+      formData.orderSn = selected.orderSn;
+      currentOrderInfo.value = selected;
+    } else {
+      getOrderInfo(orderId)
+    }
+  }
+
+  /** 根据订单ID获取订单详情（用于回显） */
+  /** 根据订单ID获取订单详情（用于回显） */
+  const getOrderInfo = async (orderId: number) => {
+    try {
+      const res = await OmsOrderAPI.getPage({
+        keywords: orderId.toString(),
+        pageNum: 1,
+        pageSize: 20
+      });
+
+      if (res && res.list && res.list.length > 0) {
+        const orderList = res.list.flat();
+        // 查找匹配的订单
+        const order = orderList.find(item => item.id === orderId);
+
+        if (order) {
+          formData.orderSn = order.orderSn;
+          currentOrderInfo.value = order;  // 单个订单对象
+
+          // 添加到选项列表
+          if (!options.value.some(item => item.id === orderId)) {
+            options.value = [order, ...options.value];
+          }
+        } else {
+          formData.orderSn = '订单不存在';
+          currentOrderInfo.value = null;
+        }
+      } else {
+        formData.orderSn = '订单不存在';
+        currentOrderInfo.value = null;
+      }
+    } catch (error) {
+      console.error('获取订单详情失败:', error);
+      formData.orderSn = '获取失败';
+      currentOrderInfo.value = null;
+    }
+  }
+
+
+  /** 搜索订单（远程搜索） */
+  async function searchOptions(keyword: string) {
+    if (!keyword || keyword.trim() === '') {
+      options.value = [];
+      return;
+    }
+
+    searchLoading.value = true;
+    try {
+      const res = await OmsOrderAPI.getPage({
+        keywords: keyword.trim(),
+        pageNum: 1,
+        pageSize: 20
+      });
+
+      console.log("订单搜索结果:", res);
+
+      if (res && res.list.flat()) {
+        options.value = res.list.flat();
+      } else {
+        options.value = [];
+      }
+    } catch (error) {
+      console.error('搜索订单失败:', error);
+      options.value = [];
+    } finally {
+      searchLoading.value = false;
+    }
+  }
+
+
+
   /** 查询订单商品信息 */
   function handleQuery() {
     loading.value = true;
           OmsOrderItemAPI.getPage(queryParams)
         .then((data) => {
+          console.log("查询订单商品信息:{}", data);
+
           pageData.value = data.list.flat();
           total.value = data.total;
         })
@@ -349,7 +520,27 @@
     if (id) {
       dialog.title = "修改订单商品信息";
             OmsOrderItemAPI.getFormData(id).then((data) => {
-        Object.assign(formData, data);
+
+              console.log('获取到的表单数据:', data);
+              console.log('订单ID:', data.orderId);
+              console.log('订单号:', data.orderSn);
+
+              console.log('这里不能编辑订单号:后端没有传orderid');
+              Object.assign(formData, data);
+
+              // 2. 清空之前的选项
+              options.value = [];
+
+              // 3. 关键：如果有订单ID，立即搜索订单信息
+              if (formData.orderId) {
+                console.log('开始搜索订单信息，订单ID:', formData.orderId);
+                getOrderInfo(formData.orderId);
+              } else {
+                console.log('没有订单ID，跳过搜索');
+              }
+            }).catch(error => {
+              console.error('获取表单数据失败:', error);
+
       });
     } else {
       dialog.title = "新增订单商品信息";

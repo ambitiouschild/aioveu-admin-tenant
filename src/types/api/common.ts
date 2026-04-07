@@ -32,6 +32,7 @@ export interface BaseQueryParams {
 export interface PageQuery {
   pageNum: number;
   pageSize: number;
+  keywords?: string;
 }
 
 /** 分页数据结构（仅分页接口） */

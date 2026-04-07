@@ -131,6 +131,9 @@ export interface OmsOrderForm {
 
 /** 订单详情分页对象 */
 export interface OmsOrderPageVO {
+
+  /** 订单号 */
+    id: number;
     /** 订单号 */
     orderSn?: string;
     /** 订单总额（分） */
@@ -189,3 +192,4 @@ export interface OmsOrderPageVO {
     /** 修改时间 */
     updateTime?: Date;
 }
+

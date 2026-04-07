@@ -179,6 +179,10 @@ export interface IModalConfig<T = any> {
 
 export type IForm = Partial<Omit<FormProps, "model" | "rules">>;
 
+
+//根据你提供的完整类型定义，IFormItems是一个数组类型，每个元素都必须包含prop属性。而且类型定义中没有支持divider、row、col等布局组件。
+//
+// 简化配置
 // 表单项
 export type IFormItems<T = IComponentType> = Array<{
   // 组件类型(如input,select,radio,custom等)

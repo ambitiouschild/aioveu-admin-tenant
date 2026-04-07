@@ -77,15 +77,29 @@ export interface OmsOrderItemPageQuery extends PageQuery {
     skuName?: string;
     /** 逻辑删除标识(1:已删除；0:正常) */
     deleted?: number;
+
+  /** 订单号 */
+  orderSn?: string;
 }
+
+
+
+
 
 /** 订单商品信息表单对象 */
 export interface OmsOrderItemForm {
 
-    /** 商品编号 */
-    id?:  number;
+  /** 订单编号 */
+  id?:  number;
+
+    /** 订单编号 */
+    orderId?:  number;
     /** 商品名称 */
     spuName?:  string;
+
+  orderSn?: string;          // 订单号（仅用于显示）
+
+
     /** 商品ID */
     skuId?:  number;
     /** 商品编码 */
@@ -106,6 +120,10 @@ export interface OmsOrderItemForm {
 
 /** 订单商品信息分页对象 */
 export interface OmsOrderItemPageVO {
+
+  /** ID */
+  id?: number;
+
     /** 订单ID */
     orderId?: number;
     /** 商品名称 */
