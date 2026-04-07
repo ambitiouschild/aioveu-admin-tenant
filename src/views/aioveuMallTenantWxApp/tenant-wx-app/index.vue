@@ -160,6 +160,10 @@ const contentConfig: IContentConfig<TenantWxAppPageQuery> = reactive({
     { label: "", prop: "id" },
     { label: "租户ID", prop: "tenantId" },
     { label: "微信小程序ID", prop: "wxAppid" },
+    { label: "小程序/公众号密钥", prop: "appSecret" },
+    { label: "应用名称", prop: "appName" },
+    { label: "应用类型", prop: "appType" },
+    { label: "状态", prop: "status" },
     { label: "微信小程序appname", prop: "wxAppname" },
     { label: "微信小程序注册邮箱", prop: "registeredEmail" },
     { label: "是否为默认小程序", prop: "isDefault" },
@@ -189,18 +193,19 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     draggable: true,
   },
   form: {
-    labelWidth: 300, //100
+    labelWidth: 100,
+    labelPosition: 'top', // 标签置顶，更适合宽表单
   },
   // 表单项配置
   formItems: [
-    {
-      type: "input",
-      attrs: {
-        placeholder: ""
-      },
-      label: "",
-      prop: "id",
-    },
+    // {
+    //   type: "input",
+    //   attrs: {
+    //     placeholder: ""
+    //   },
+    //   label: "",
+    //   prop: "id",
+    // },
     {
       type: "input",
       attrs: {
@@ -218,6 +223,41 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
       rules: [{ required: true, message: "微信小程序ID不能为空", trigger: "blur" }],
       label: "微信小程序ID",
       prop: "wxAppid",
+    },
+    {
+      type: "input",
+      attrs: {
+        placeholder: "小程序/公众号密钥"
+      },
+      rules: [{ required: true, message: "小程序/公众号密钥不能为空", trigger: "blur" }],
+      label: "小程序/公众号密钥",
+      prop: "appSecret",
+    },
+    {
+      type: "input",
+      attrs: {
+        placeholder: "应用名称"
+      },
+      rules: [{ required: true, message: "应用名称不能为空", trigger: "blur" }],
+      label: "应用名称",
+      prop: "appName",
+    },
+    {
+      type: "input",
+      attrs: {
+        placeholder: "应用类型"
+      },
+      label: "应用类型",
+      prop: "appType",
+    },
+    {
+      type: "input",
+      attrs: {
+        placeholder: "状态"
+      },
+      rules: [{ required: true, message: "状态不能为空", trigger: "blur" }],
+      label: "状态",
+      prop: "status",
     },
     {
       type: "input",
@@ -271,6 +311,10 @@ const editModalConfig: IModalConfig<TenantWxAppForm> = reactive({
   drawer: {
     title: "编辑",
     size: 500,
+  },
+  form: {
+    labelWidth: 100,
+    labelPosition: 'top', // 标签置顶，更适合宽表单
   },
   pk: "id",
   formAction(data: any) {
