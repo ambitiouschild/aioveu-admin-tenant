@@ -135,7 +135,7 @@ import { Plus, Minus } from "@element-plus/icons-vue";
 
 // 导入API
 import PmsSpuAttributeAPI from "@/api/aioveuMall/aioveuMallPms/aioveuMallPmsSpuAttribute/pms-spu-attribute";
-
+import type { PmsSpuPageVO } from "@/api/aioveuMall/aioveuMallPms/aioveuMallPmsSpu/pms-spu";
 // ==================== 类型定义 ====================
 /**
  * 商品属性项接口
@@ -162,13 +162,13 @@ interface GoodsInfo {
 
 // ==================== Props和Emit ====================
 const props = defineProps<{
-  modelValue: GoodsInfo;  // 双向绑定的商品信息
+  modelValue: PmsSpuPageVO;  // ✅ 使用相同的类型;  // 双向绑定的商品信息
 }>();
 
 const emit = defineEmits<{
   (e: "prev"): void;  // 上一步事件
   (e: "next"): void;  // 下一步事件
-  (e: "update:modelValue", value: GoodsInfo): void;  // 更新商品信息
+  (e: "update:modelValue", value: PmsSpuPageVO): void;  // ✅ 使用相同的类型
 }>();
 
 // ==================== 响应式数据 ====================
@@ -206,7 +206,7 @@ const formRules = ref<FormRules>({
 });
 
 // 商品信息双向绑定
-const goodsInfo = computed<GoodsInfo>({
+const goodsInfo = computed<PmsSpuPageVO>({
   get: () => props.modelValue,
   set: (value) => {
     emit("update:modelValue", value);
@@ -297,6 +297,13 @@ const loadCategoryAttributes = async (categoryId: number): Promise<void> => {
  * 重置属性列表
  */
 const resetAttributeList = (): void => {
+
+  // ✅ 确保 goodsInfo.value 存在
+  if (!goodsInfo.value) {
+    console.error("goodsInfo.value 不存在");
+    return;
+  }
+
   goodsInfo.value.attrList = [{
     name: "",
     value: ""
@@ -385,7 +392,39 @@ const handleNext = async (): Promise<void> => {
       if (validationResult.valid) {
         console.log("✅ 属性验证通过");
         console.log("属性数据:", goodsInfo.value.attrList);
+
+      // ✅ 关键：确保发送完整数据
+        const dataToSend: PmsSpuPageVO = {
+          ...goodsInfo.value,  // 包含所有现有数据
+          // 明确确保关键字段存在
+          name: goodsInfo.value.name || "",
+          price: goodsInfo.value.price,
+          originPrice: goodsInfo.value.originPrice,
+          brandId: goodsInfo.value.brandId,
+          picUrl: goodsInfo.value.picUrl || "",
+          detail: goodsInfo.value.detail || "",
+          album: goodsInfo.value.album || [],
+          specList: goodsInfo.value.specList || [],
+          skuList: goodsInfo.value.skuList || [],
+          sales: goodsInfo.value.sales || 0,
+          stock: goodsInfo.value.stock || 0,
+          categoryName: goodsInfo.value.categoryName || "",
+          brandName: goodsInfo.value.brandName || ""
+        };
+
+        console.log("📤 GoodsAttribute 发送的数据:", {
+          名称: dataToSend.name,
+          价格: dataToSend.price,
+          属性数量: dataToSend.attrList?.length || 0
+        });
+
+        // ✅ 发送完整数据
+        emit("update:modelValue", dataToSend);
+
+        // ✅ 触发下一步
         emit("next");
+
+
       } else {
         ElMessage.warning(validationResult.message);
       }
@@ -427,6 +466,14 @@ const validateAttributes = (): { valid: boolean; message?: string } => {
 onMounted(() => {
   console.log("🔄 商品属性组件挂载");
 
+  console.log("🔍 从父组件接收的数据:", {
+    名称: props.modelValue?.name,
+    价格: props.modelValue?.price,
+    原价: props.modelValue?.originPrice,
+    品牌ID: props.modelValue?.brandId,
+    主图: props.modelValue?.picUrl,
+    属性数量: props.modelValue?.attrList?.length || 0
+  });
   // 初始化属性列表
   if (!goodsInfo.value.attrList || goodsInfo.value.attrList.length === 0) {
     resetAttributeList();
@@ -435,6 +482,18 @@ onMounted(() => {
   // 开始监听分类变化
   watchCategoryChange();
 });
+
+
+// 监听数据变化
+watch(() => props.modelValue, (newValue) => {
+  console.log("🔄 GoodsAttribute 监听到数据变化:", {
+    名称: newValue.name,
+    价格: newValue.price,
+    属性数量: newValue.attrList?.length || 0
+  });
+}, { deep: true, immediate: true });
+
+
 
 // ==================== 暴露给父组件的方法 ====================
 defineExpose({

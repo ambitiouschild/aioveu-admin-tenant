@@ -160,7 +160,9 @@
         </template>
 
         <!-- SKU表单 -->
-        <el-form ref="skuFormRef" :model="skuForm" :rules="skuRules" size="small" label-width="0">
+<!--        <el-form ref="skuFormRef" :model="skuForm" :rules="skuRules" size="small" label-width="0">-->
+          <!-- 直接使用 el-table，不在内部嵌套 el-form -->
+
           <el-table
             :data="skuForm.skuList"
             border
@@ -187,24 +189,32 @@
             <!-- 增加到180px -->
             <el-table-column label="SKU编码" width="180" align="center">
               <template #default="scope">
-                <el-form-item
-                  :prop="`skuList[${scope.$index}].skuSn`"
-                  :rules="skuSnRules"
-                  class="table-form-item"
-                >
-                  <el-input v-model="scope.row.skuSn" placeholder="如: SKU001" clearable />
-                </el-form-item>
+
+                <!-- 移除 el-form-item 包裹，直接使用 el-input -->
+                <el-input
+                  v-model="scope.row.skuSn"
+                  placeholder="如: SKU001"
+                  clearable
+                  size="small"
+                  @blur="validateSkuSn(scope.$index)"
+                />
+
+<!--                <el-form-item-->
+<!--                  :prop="`skuList[${scope.$index}].skuSn`"-->
+<!--                  :rules="skuSnRules"-->
+<!--                  class="table-form-item"-->
+<!--                >-->
+<!--                  <el-input v-model="scope.row.skuSn" placeholder="如: SKU001" clearable />-->
+<!--                </el-form-item>-->
+
               </template>
             </el-table-column>
 
             <!-- 价格 -->
             <el-table-column label="价格(元)" width="150" align="center">
               <template #default="scope">
-                <el-form-item
-                  :prop="`skuList[${scope.$index}].price`"
-                  :rules="priceRules"
-                  class="table-form-item"
-                >
+
+
                   <el-input
                     v-model.number="scope.row.price"
                     type="number"
@@ -212,29 +222,29 @@
                     :min="0"
                     :step="0.01"
                     @input="handlePriceChange(scope.row)"
+                    @blur="validatePriceField(scope.$index)"
                   >
+
                     <template #prefix>¥</template>
                   </el-input>
-                </el-form-item>
               </template>
             </el-table-column>
 
             <!-- 库存 -->
             <el-table-column label="库存" width="120" align="center">
               <template #default="scope">
-                <el-form-item
-                  :prop="`skuList[${scope.$index}].stock`"
-                  :rules="stockRules"
-                  class="table-form-item"
-                >
+
+
                   <el-input
                     v-model.number="scope.row.stock"
                     type="number"
                     placeholder="0"
                     :min="0"
                     :step="1"
+                    @blur="validateStockField(scope.$index)"
                   />
-                </el-form-item>
+
+
               </template>
             </el-table-column>
 
@@ -276,7 +286,11 @@
           <div v-else class="empty-state">
             <el-empty description="请先配置规格值" :image-size="100" />
           </div>
-        </el-form>
+
+<!--        </el-form>-->
+
+
+
       </el-card>
     </div>
 
@@ -306,7 +320,7 @@ import SingleImageUpload from "@/components/Upload/SingleImageUpload.vue";
 //这个组件不需要调用 PmsSpuAttributeAPI来加载规格数据。规格数据应该来自父组件传递的商品信息，或者用户手动添加。
 // import PmsSpuAttributeAPI from "@/api/aioveuMall/aioveuMallPms/aioveuMallPmsSpuAttribute/pms-spu-attribute";
 
-import PmsSpuAPI from "@/api/aioveuMall/aioveuMallPms/aioveuMallPmsSpu/pms-spu";
+import PmsSpuAPI, {type PmsSpuPageVO} from "@/api/aioveuMall/aioveuMallPms/aioveuMallPmsSpu/pms-spu";
 
 // ==================== 类型定义 ====================
 /**
@@ -347,26 +361,26 @@ interface SkuItem {
 /**
  * 商品信息接口
  */
-interface GoodsInfo {
-  id?: number; // 商品ID
-  name?: string; // 商品名称 ✅ 改为可选
-  categoryId?: number; // 分类ID
-  brandId?: number; // 品牌ID
-  originPrice?: number; // 原价（单位：分）
-  price?: number; // 现价（单位：分）
-  album?: any[]; // 商品相册图片数组 ✅ 改为可选
-  attrList?: any[]; // 商品属性列表 ✅ 改为可选
-  specList?: any[]; // 规格列表
-  skuList?: any[]; // SKU列表
-  detail?: string; // 商品详情HTML ✅ 改为可选
-  sales?: number; // 销量 ✅ 改为可选
-  stock?: number; // 总库存 ✅ 改为可选
-  picUrl?: string; // 商品主图 ✅ 改为可选
-  categoryName?: string; // 分类名称 ✅ 改为可选
-  brandName?: string; // 品牌名称 ✅ 改为可选
-  activeStep?: number; // 当前步骤 ✅ 添加步骤字段
-  [key: string]: any; // 其他字段
-}
+// interface GoodsInfo {
+//   id?: number; // 商品ID
+//   name?: string; // 商品名称 ✅ 改为可选
+//   categoryId?: number; // 分类ID
+//   brandId?: number; // 品牌ID
+//   originPrice?: number; // 原价（单位：分）
+//   price?: number; // 现价（单位：分）
+//   album?: any[]; // 商品相册图片数组 ✅ 改为可选
+//   attrList?: any[]; // 商品属性列表 ✅ 改为可选
+//   specList?: any[]; // 规格列表
+//   skuList?: any[]; // SKU列表
+//   detail?: string; // 商品详情HTML ✅ 改为可选
+//   sales?: number; // 销量 ✅ 改为可选
+//   stock?: number; // 总库存 ✅ 改为可选
+//   picUrl?: string; // 商品主图 ✅ 改为可选
+//   categoryName?: string; // 分类名称 ✅ 改为可选
+//   brandName?: string; // 品牌名称 ✅ 改为可选
+//   activeStep?: number; // 当前步骤 ✅ 添加步骤字段
+//   [key: string]: any; // 其他字段
+// }
 
 /**
  * 规格输入框状态
@@ -378,12 +392,13 @@ interface TagInputState {
 
 // ==================== Props和Emit ====================
 const props = defineProps<{
-  modelValue: GoodsInfo; // 双向绑定的商品信息
+  modelValue: PmsSpuPageVO;  // ✅ 使用正确的类型; // 双向绑定的商品信息
+  isEditMode?: boolean;  // 新增：接收编辑模式标志
 }>();
 
 const emit = defineEmits<{
   (e: "prev"): void; // 上一步事件
-  (e: "update:modelValue", value: GoodsInfo): void; // 更新商品信息
+  (e: "update:modelValue", value: PmsSpuPageVO): void; // 更新商品信息
   (e: "submit-success", categoryId?: number): void;  // ✅ 新增
 }>();
 
@@ -477,6 +492,9 @@ const specRules: FormRules = {
   specList: [],
 };
 
+
+
+
 // 规格名称验证
 const specNameRules = [
   { required: true, message: "请输入规格名称", trigger: "blur" },
@@ -487,6 +505,80 @@ const specNameRules = [
 const skuRules: FormRules = {
   skuList: [],
 };
+
+
+// SKU编码验证方法
+const validateSkuSn = (index: number) => {
+  const sku = skuForm.value.skuList[index];
+  if (!sku.skuSn?.trim()) {
+    ElMessage.warning(`第 ${index + 1} 个SKU编码不能为空`);
+    return false;
+  }
+  if (sku.skuSn.length > 50) {
+    ElMessage.warning(`第 ${index + 1} 个SKU编码长度不能超过50字符`);
+    return false;
+  }
+  return true;
+};
+
+// 替换 priceRules 和 stockRules
+const validatePrice = (value: any, index: number): { isValid: boolean; message?: string } => {
+  if (value === undefined || value === null || value === "") {
+    return { isValid: false, message: "请输入价格" };
+  }
+  if (isNaN(Number(value))) {
+    return { isValid: false, message: "价格必须是数字" };
+  }
+  if (Number(value) < 0) {
+    return { isValid: false, message: "价格不能小于0" };
+  }
+  if (Number(value) > 9999999) {
+    return { isValid: false, message: "价格超出范围" };
+  }
+  return { isValid: true };
+};
+
+const validateStock = (value: any, index: number): { isValid: boolean; message?: string } => {
+  if (value === undefined || value === null || value === "") {
+    return { isValid: false, message: "请输入库存" };
+  }
+  if (isNaN(Number(value))) {
+    return { isValid: false, message: "库存必须是数字" };
+  }
+  if (!Number.isInteger(Number(value))) {
+    return { isValid: false, message: "库存必须是整数" };
+  }
+  if (Number(value) < 0) {
+    return { isValid: false, message: "库存不能小于0" };
+  }
+  if (Number(value) > 999999) {
+    return { isValid: false, message: "库存超出范围" };
+  }
+  return { isValid: true };
+};
+
+
+
+// 验证单个价格字段
+const validatePriceField = (index: number) => {
+  const sku = skuForm.value.skuList[index];
+  const result = validatePrice(sku.price, index);
+  if (!result.isValid && result.message) {
+    ElMessage.warning(result.message);
+  }
+};
+
+// 验证单个库存字段
+const validateStockField = (index: number) => {
+  const sku = skuForm.value.skuList[index];
+  const result = validateStock(sku.stock, index);
+  if (!result.isValid && result.message) {
+    ElMessage.warning(result.message);
+  }
+};
+
+
+
 
 // SKU编码验证
 const skuSnRules = [
@@ -539,7 +631,7 @@ const stockRules = [
 ];
 
 // 商品信息双向绑定
-const goodsInfo = computed<GoodsInfo>({
+const goodsInfo = computed<PmsSpuPageVO>({
   get: () => props.modelValue,
   set: (value) => {
     emit("update:modelValue", value);
@@ -793,6 +885,57 @@ const handleSpecChange = (): void => {
   updateSpecTitles();
 };
 
+
+/**
+ * 计算笛卡尔积（修复版）
+ */
+const calculateCartesianProduct = (...arrays: SpecValue[][]): SpecValue[][] => {
+  if (arrays.length === 0) return [];
+
+  // 初始化结果为第一个数组的所有元素（每个元素包装成数组）
+  let result: SpecValue[][] = arrays[0].map(item => [item]);
+
+  // 依次与其他数组合并
+  for (let i = 1; i < arrays.length; i++) {
+    const temp: SpecValue[][] = [];
+    for (const combination of result) {
+      for (const item of arrays[i]) {
+        temp.push([...combination, item]); // 合并当前组合和新元素
+      }
+    }
+    result = temp; // 更新结果
+  }
+
+  return result;
+};
+
+
+// 查找现有SKU - 修复版
+const findExistingSku = (specIds: string, specValues: string): SkuItem | undefined => {
+  // 方法1：先尝试通过 specIds 查找
+  let existingSku = skuForm.value.skuList.find(sku => sku.specIds === specIds);
+
+  // 方法2：如果找不到，尝试通过 specValues 查找
+  if (!existingSku) {
+    existingSku = skuForm.value.skuList.find(sku => sku.specValues === specValues);
+  }
+
+  // 方法3：如果还找不到，尝试通过规格值组合的模糊匹配
+  if (!existingSku && specValues) {
+    existingSku = skuForm.value.skuList.find(sku => {
+      if (!sku.specValues) return false;
+      // 分割规格值进行比较
+      const skuValues = sku.specValues.split('_');
+      const newValues = specValues.split('_');
+      return skuValues.length === newValues.length &&
+        skuValues.every((val, idx) => val === newValues[idx]);
+    });
+  }
+
+  return existingSku;
+};
+
+
 /**
  * 生成SKU列表（笛卡尔积）
  */
@@ -824,21 +967,28 @@ const generateSkuList = (): void => {
   })));
 
   // 计算笛卡尔积  方案3：使用现有的第三方库（如果你有）  如果你有 lodash 可用
-  const cartesianProduct = (...arrays: any[][]) => {
-
-    return arrays.reduce(
-      (acc, curr) => {
-        return acc.flatMap((x) => curr.map((y) => [...x, y]));
-      },
-      [[]]  // ❌ 问题在这里：初始值为包含一个空数组的数组
-      //初始值 [[]]会导致第一个组合是空数组 []，这就是为什么你的第一个组合会是空的原因。
-    ).filter(combo => combo.length > 0);  // 过滤掉空数组
-  };
+  // const cartesianProduct = (...arrays: any[][]) => {
+  //
+  //   return arrays.reduce(
+  //     (acc, curr) => {
+  //
+  //       // 如果 acc 是空的，用 curr 的元素初始化
+  //       if (acc.length === 0) {
+  //         return curr.map(item => [item]);
+  //       }
+  //
+  //       // 否则进行正常的笛卡尔积计算
+  //       return acc.flatMap((x) => curr.map((y) => [...x, y]));
+  //     },
+  //     [[]]  // ❌ 问题在这里：初始值为包含一个空数组的数组
+  //     //初始值 [[]]会导致第一个组合是空数组 []，这就是为什么你的第一个组合会是空的原因。
+  //   );
+  // };
 
 
 
   // 获取所有规格值的组合
-  const valueCombinations = cartesianProduct(...validSpecs.map((spec) => spec.values));
+  const valueCombinations = calculateCartesianProduct(...validSpecs.map((spec) => spec.values));
 
   console.log("📊 规格值组合数量:", valueCombinations.length);
   console.log("📊 前3个组合:", valueCombinations.slice(0, 3).map(combo =>
@@ -861,12 +1011,17 @@ const generateSkuList = (): void => {
 
     // 查找现有SKU
     // 查找现有SKU
-    const existingSku = skuForm.value.skuList.find((sku) => {
-      // 通过规格值组合或规格ID组合来查找
-      return sku.specIds === specIds || sku.specValues === specValues;
-    });
+    // const existingSku = skuForm.value.skuList.find((sku) => {
+    //   // 通过规格值组合或规格ID组合来查找
+    //   return sku.specIds === specIds || sku.specValues === specValues;
+    // });
 
-    console.log(`✅ 查找现有SKU`,existingSku);
+    // 查找现有SKU
+    const existingSku = findExistingSku(specIds, specValues);
+
+
+
+    console.log(`🔍 查找现有SKU结果:`, existingSku ? '找到' : '未找到');
 
     // 构建SKU对象
     const sku: SkuItem = {
@@ -947,7 +1102,18 @@ const handlePrev = (): void => {
 const handleSubmit = async (): Promise<void> => {
   try {
     console.log("📤 开始提交表单");
-    console.log("📤 提交数据的分类id:", goodsInfo.value.categoryId);
+    // 调试：显示完整的商品信息
+    console.log("🔍 完整的商品信息:", {
+      id: goodsInfo.value.id,
+      name: goodsInfo.value.name,
+      price: goodsInfo.value.price,
+      originPrice: goodsInfo.value.originPrice,
+      categoryId: goodsInfo.value.categoryId,
+      brandId: goodsInfo.value.brandId,
+      picUrl: goodsInfo.value.picUrl,
+      albumLength: goodsInfo.value.album?.length || 0,
+      detailLength: goodsInfo.value.detail?.length || 0
+    });
 
     // 1. 检查必填字段
     if (!goodsInfo.value.categoryId) {
@@ -955,17 +1121,6 @@ const handleSubmit = async (): Promise<void> => {
       return;
     }
 
-    // 2. 验证规格表单
-    if (!specFormRef.value) {
-      console.error("规格表单未初始化");
-      return;
-    }
-
-    const specValid = await specFormRef.value.validate();
-    if (!specValid) {
-      ElMessage.warning("请填写完整的规格信息");
-      return;
-    }
 
     // 3. 检查规格值
     const hasSpecValues = specForm.value.specList.some(
@@ -977,23 +1132,38 @@ const handleSubmit = async (): Promise<void> => {
       return;
     }
 
-    // 4. 验证SKU表单
-    if (!skuFormRef.value) {
-      console.error("SKU表单未初始化");
-      return;
-    }
 
-    const skuValid = await skuFormRef.value.validate();
-    if (!skuValid) {
-      ElMessage.warning("请填写完整的SKU信息");
-      return;
-    }
 
     // 5. 检查是否有SKU
     if (skuForm.value.skuList.length === 0) {
       ElMessage.warning("未生成商品SKU");
       return;
     }
+
+
+
+    // 4. 验证所有SKU的必填字段
+    const invalidSkus = skuForm.value.skuList.filter((sku, index) => {
+      if (!sku.skuSn?.trim()) {
+        ElMessage.warning(`第 ${index + 1} 个SKU编码不能为空`);
+        return true;
+      }
+      if (sku.price === undefined || sku.price === null || sku.price < 0) {
+        ElMessage.warning(`第 ${index + 1} 个SKU价格无效`);
+        return true;
+      }
+      if (sku.stock === undefined || sku.stock === null || sku.stock < 0) {
+        ElMessage.warning(`第 ${index + 1} 个SKU库存无效`);
+        return true;
+      }
+      return false;
+    });
+
+    if (invalidSkus.length > 0) {
+      return;
+    }
+
+
 
 
 
@@ -1094,19 +1264,19 @@ const handleSubmit = async (): Promise<void> => {
     console.log("📤 规格数量:", submitData.specList?.length || 0);
     console.log("📤 SKU数量:", submitData.skuList?.length || 0);
 
-    // 验证必填字段
-    const requiredFields = {
-      name: submitData.name,
-      categoryId: submitData.categoryId,
-      originPrice: submitData.originPrice,
-      price: submitData.price
-    };
-
-    for (const [field, value] of Object.entries(requiredFields)) {
-      if (value === undefined || value === null || value === '') {
-        console.error(`❌ 必填字段 ${field} 为空:`, value);
-      }
-    }
+    // // 验证必填字段
+    // const requiredFields = {
+    //   name: submitData.name,
+    //   categoryId: submitData.categoryId,
+    //   originPrice: submitData.originPrice,
+    //   price: submitData.price
+    // };
+    //
+    // for (const [field, value] of Object.entries(requiredFields)) {
+    //   if (value === undefined || value === null || value === '') {
+    //     console.error(`❌ 必填字段 ${field} 为空:`, value);
+    //   }
+    // }
 
     if (goodsInfo.value.id) {
       // 编辑
@@ -1155,7 +1325,7 @@ const handleSubmit = async (): Promise<void> => {
       detail: "",
       // 保留分类ID
       categoryId: goodsInfo.value.categoryId
-    } as GoodsInfo;
+    } as PmsSpuPageVO;
 
     emit("update:modelValue", resetInfo);
 
@@ -1183,6 +1353,12 @@ const handleSubmit = async (): Promise<void> => {
 // ==================== 生命周期钩子 ====================
 onMounted(() => {
   console.log("🔄 商品规格组件挂载");
+  console.log("🔍 goodsInfo 完整数据:", goodsInfo.value);
+  console.log("🔍 商品名称:", goodsInfo.value.name);
+  console.log("🔍 商品价格:", goodsInfo.value.price);
+  console.log("🔍 商品原价:", goodsInfo.value.originPrice);
+  console.log("🔍 商品分类ID:", goodsInfo.value.categoryId);
+  console.log("🔍 商品品牌ID:", goodsInfo.value.brandId);
 
   // 加载商品数据（编辑模式）
   loadGoodsData();
@@ -1191,6 +1367,14 @@ onMounted(() => {
 // 添加监听器
 watch(() => props.modelValue, async (newValue) => {
   console.log("🔄 GoodsStock 监听到父组件数据变化");
+
+  console.log("🔍 新的商品信息:", {
+    name: newValue.name,
+    price: newValue.price,
+    originPrice: newValue.originPrice,
+    categoryId: newValue.categoryId,
+    brandId: newValue.brandId
+  });
 
   // 如果商品ID存在，重新加载数据
   if (newValue.id) {

@@ -159,9 +159,9 @@ export interface PmsSpuPageVO {
     /** 更新时间 */
     updateTime?: Date;
 
-  attrList: [];           // 商品属性列表
-  specList: [];            // 商品规格列表
-  skuList: [];             // 商品SKU列表
+  attrList: any[];           // 商品属性列表
+  specList: any[];            // 商品规格列表
+  skuList: any[];             // 商品SKU列表
 
   stock: number;
 

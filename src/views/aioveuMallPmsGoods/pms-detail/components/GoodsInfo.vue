@@ -195,7 +195,6 @@ import PmsBrandAPI from "@/api/aioveuMall/aioveuMallPms/aioveuMallPmsBrand/pms-b
 // 导入父组件使用的类型
 import type { PmsSpuPageVO } from "@/api/aioveuMall/aioveuMallPms/aioveuMallPmsSpu/pms-spu";
 
-
 // 获取 store
 const goodsState = useGoodsStoreHook();
 
@@ -218,9 +217,10 @@ interface FormRules {
   }>;
 }
 
+
 // ==================== Props和Emit ====================
 const props = defineProps<{
-  modelValue: PmsSpuPageVO;
+  modelValue: PmsSpuPageVO;  // ✅ 使用正确的类型;
   isEditMode?: boolean;  // 新增：接收编辑模式标志
 }>();
 
@@ -347,8 +347,20 @@ const handleNext = async (): Promise<void> => {
       console.log("✅ 表单验证通过");
       console.log("商品信息:", goodsInfo.value);
 
+      // ✅ 关键：保存数据到父组件
+
+      emit("update:modelValue", goodsInfo.value);
+      console.log("📤 触发 emit('update:modelValue', dataToSend)");
+
+      // ✅ 等待一下，确保数据保存完成
+      await new Promise(resolve => setTimeout(resolve, 50));
+
       // 触发下一步事件
       emit("next");
+      // ✅ 触发下一步事件
+      console.log("➡️ 触发 emit('next')");
+
+
     } else {
       console.log("❌ 表单验证失败");
       ElMessage.warning("请填写完整的商品信息");

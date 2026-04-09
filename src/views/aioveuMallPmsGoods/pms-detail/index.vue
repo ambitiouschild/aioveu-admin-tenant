@@ -40,6 +40,7 @@
           v-model="goodsInfo"
           @prev="handlePrevStep"
           @next="handleNextStep"
+          @update:modelValue="handleUpdateModelValue"
         />
 
     <!-- 步骤3：商品属性设置组件 -->
@@ -49,6 +50,7 @@
           v-model="goodsInfo"
           @prev="handlePrevStep"
           @next="handleNextStep"
+          @update:modelValue="handleUpdateModelValue"
         />
 
     <!-- 步骤4：商品库存设置组件 -->
@@ -59,6 +61,7 @@
           @prev="handlePrevStep"
           @next="handleNextStep"
           @submit-success="handleSubmitSuccess"
+          @update:modelValue="handleUpdateModelValue"
         />
 
 <!--   ===========================================  -->
@@ -172,6 +175,39 @@ const loadGoodsData = async (): Promise<void> => {
   }
 };
 
+
+
+/**
+ * 处理子组件传递的数据更新
+ */
+const handleUpdateModelValue = (value: PmsSpuPageVO) => {
+  console.log("📥 父组件收到 update:modelValue 事件:", {
+    时间: new Date().toLocaleTimeString(),
+    当前步骤: activeStep.value,
+    name: value.name,
+    price: value.price,
+    originPrice: value.originPrice,
+    categoryId: value.categoryId
+  });
+
+  // 更新父组件的 goodsInfo
+  goodsInfo.value = {
+    ...goodsInfo.value,  // 保留原有数据
+    ...value,  // 合并新数据
+  };
+
+  console.log("✅ 父组件 goodsInfo 更新后:", {
+    name: goodsInfo.value.name,
+    price: goodsInfo.value.price
+  });
+};
+
+
+
+
+
+
+
 // /**
 //  * 上一步：返回上一个步骤
 //  */
@@ -188,25 +224,14 @@ const handlePrevStep = (): void => {
       // 保存当前分类ID
       const currentCategoryId = goodsInfo.value.categoryId;
 
-      // 重置商品信息，保留分类
-      goodsInfo.value = {
-        id: undefined,  // 清除商品ID
-        name: "",
-        categoryId: currentCategoryId,
-        brandId: undefined,
-        originPrice: undefined,
-        price: undefined,
-        album: [],
-        attrList: [],
-        specList: [],
-        skuList: [],
-        detail: "",
-        sales: 0,
-        stock: 0,
-        picUrl: "",
-        categoryName: "",
-        brandName: "",
-      };
+      // 只清除商品ID，保留其他信息
+      if (goodsInfo.value.id) {
+        console.log("🔄 从编辑模式返回，清除商品ID，保留其他信息");
+        goodsInfo.value.id = undefined;  // 只清除ID
+
+        // 保留其他所有信息！
+        // 不重置 name, price, originPrice, brandId 等
+      }
 
       console.log("🔄 从编辑模式返回，重置为新增模式，分类ID:", currentCategoryId);
     }
@@ -255,11 +280,18 @@ const handleSubmitSuccess = (categoryId: number) => {
  */
 const initActiveStep = (): void => {
   const step = route.query.step as string;
+
+  console.log("🔍 初始化步骤，路由参数 step:", step);
+
+
   if (step) {
     const stepNum = parseInt(step, 10);
     if (stepNum >= 0 && stepNum <= 3) {
+      console.log(`📊 从路由参数设置步骤: ${stepNum}`);
       activeStep.value = stepNum;
     }
+  }else {
+    console.log("📊 无路由参数，使用默认步骤: 0");
   }
 };
 
@@ -286,7 +318,16 @@ const handleEditGoods = async (goodsId: number) => {
 onMounted(async () => {
 
   console.log("🔄 商品详情页面开始加载");
-  console.log(`✅ GoodsDetail 页面激活`)
+  console.log("🔍 当前已有商品信息:", {
+    名称: goodsInfo.value.name,
+    价格: goodsInfo.value.price,
+    原价: goodsInfo.value.originPrice
+  });
+
+  // 保存当前数据到 sessionStorage（防止丢失）
+  if (goodsInfo.value.name || goodsInfo.value.price) {
+    sessionStorage.setItem('goodsInfo_before_reload', JSON.stringify(goodsInfo.value));
+  }
 
   // 初始化当前步骤
   initActiveStep();
@@ -316,10 +357,13 @@ watch(() => route.params.id, async (newId, oldId) => {
   console.log("🔄 父组件监听到商品ID变化:", {
     oldId,
     newId,
+    currentStep: activeStep.value,
+    currentName: goodsInfo.value.name
   });
 
   if (newId && newId !== oldId) {
 
+    // 编辑模式
     const goodsId = Number(newId);
     console.log("📦 监听到路由传递的商品ID:", goodsId);
     // 这里可以自动加载商品详情
@@ -338,7 +382,13 @@ watch(() => route.params.id, async (newId, oldId) => {
   } else{
     // 新增模式
     console.log("🆕 新增模式，重置数据");
-    // resetGoodsInfo();
+    console.log("🔍 当前已有数据:", {
+      名称: goodsInfo.value.name,
+      价格: goodsInfo.value.price
+    });
+
+    // ❌ 不要调用 resetGoodsInfo() 或清空数据
+    // ❌ 不要给 goodsInfo.value 重新赋值
     isDataLoaded.value = true;
   }
 
@@ -352,31 +402,45 @@ watch(() => route.params.id, async (newId, oldId) => {
 watch(activeStep, (newStep, oldStep) => {
   console.log(`🔄 步骤变化: ${oldStep} -> ${newStep}`);
 
+  console.log("🔍 切换时数据状态:", {
+    名称: goodsInfo.value.name,
+    价格: goodsInfo.value.price
+  });
+
   // 可以在这里添加步骤切换时的额外逻辑
   // 例如：保存当前步骤数据、验证当前步骤等
 
   // 当返回到第一步时，确保状态恢复
-  if (newStep === 1) {
-    // 延迟一下，确保 GoodsCategory 组件已挂载
-    setTimeout(() => {
-      // 这里可以通过 ref 调用 GoodsCategory 的方法
-      // 或者依赖 store 自动恢复
-    }, 300);
-  }
+  // if (newStep === 1) {
+  //   // 延迟一下，确保 GoodsCategory 组件已挂载
+  //   setTimeout(() => {
+  //     // 这里可以通过 ref 调用 GoodsCategory 的方法
+  //     // 或者依赖 store 自动恢复
+  //   }, 300);
+  // }
 
+// 删除以下代码，避免URL变化导致页面重载
+
+
+//   方案1（最简单）：如果你不需要在URL中保存步骤状态，直接移除 router.replace()调用。
+//   方案2（最稳定）：如果你需要在URL中保存步骤状态，使用条件判断避免循环触发。
 
   // 更新URL，支持直接跳转到指定步骤
-  const currentQuery = { ...route.query };
-  if (newStep === 0) {
-    delete currentQuery.step;
-  } else {
-    currentQuery.step = newStep.toString();
-  }
+  // const currentQuery = { ...route.query };
+  // if (newStep === 0) {
+  //   delete currentQuery.step;
+  // } else {
+  //   currentQuery.step = newStep.toString();
+  // }
+  //
+  // router.replace({
+  //   query: currentQuery
+  // }).catch(() => {});
 
-  router.replace({
-    query: currentQuery
-  }).catch(() => {});
-});
+  // 可以在这里添加步骤切换时的额外逻辑
+  // 例如：保存当前步骤数据、验证当前步骤等
+
+},{ immediate: true });
 
 
 
