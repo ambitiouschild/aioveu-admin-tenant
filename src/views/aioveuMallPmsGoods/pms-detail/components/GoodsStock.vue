@@ -998,10 +998,10 @@ const generateSkuList = (): void => {
 
   // 生成SKU列表
   const newSkus: SkuItem[] = valueCombinations.map((values: SpecValue[], index) => {
-    const specValues = values.map((v) => v.value).join("_");
+    const specValues = values.map((v) => v.value).join("|");
 
     // 数据库中的 specIds可能是下划线分隔，而您生成的 specIds是竖线分隔
-    const specIds = values.map((v) => v.id).join("_"); // 改为竖线
+    const specIds = values.map((v) => v.id).join("|"); // 改为竖线
 
     console.log(`🔍 组合 ${index + 1}:`, {
       specValues,
