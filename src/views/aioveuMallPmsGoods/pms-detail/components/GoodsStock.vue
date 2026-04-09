@@ -633,11 +633,12 @@ const processSpecList = async (specList: any[]): Promise<void> => {
  */
 const processSkuList = async (skuList: any[]): Promise<void> => {
   // 转换价格（分转元）
+  // 注意：后端返回的价格是分，前端显示需要转换为元
   const processedSkus: SkuItem[] = skuList.map((sku) => {
     const skuItem: SkuItem = {
       id: sku.id,
       skuSn: sku.skuSn || `SKU_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      price: sku.price ? sku.price / 100 : 0,
+      price: sku.price ? sku.price / 100 : 0,   // 分转元
       stock: sku.stock || 0,
       Lockedstock: 0,
       specIds: sku.specIds || "",
@@ -809,18 +810,41 @@ const generateSkuList = (): void => {
     return;
   }
 
-  // 计算笛卡尔积
+  // 验证所有规格都有值
+  const invalidSpecs = validSpecs.filter(spec => !spec.values || spec.values.length === 0);
+  if (invalidSpecs.length > 0) {
+    console.error("❌ 有规格但没有规格值:", invalidSpecs.map(s => s.name));
+    return;
+  }
+
+  console.log("📊 有效规格:", validSpecs.map(s => ({
+    name: s.name,
+    valueCount: s.values.length,
+    values: s.values.map(v => v.value)
+  })));
+
+  // 计算笛卡尔积  方案3：使用现有的第三方库（如果你有）  如果你有 lodash 可用
   const cartesianProduct = (...arrays: any[][]) => {
+
     return arrays.reduce(
       (acc, curr) => {
         return acc.flatMap((x) => curr.map((y) => [...x, y]));
       },
-      [[]]
-    );
+      [[]]  // ❌ 问题在这里：初始值为包含一个空数组的数组
+      //初始值 [[]]会导致第一个组合是空数组 []，这就是为什么你的第一个组合会是空的原因。
+    ).filter(combo => combo.length > 0);  // 过滤掉空数组
   };
+
+
 
   // 获取所有规格值的组合
   const valueCombinations = cartesianProduct(...validSpecs.map((spec) => spec.values));
+
+  console.log("📊 规格值组合数量:", valueCombinations.length);
+  console.log("📊 前3个组合:", valueCombinations.slice(0, 3).map(combo =>
+    combo.map((v: SpecValue) => v.value)
+  ));
+
 
   // 生成SKU列表
   const newSkus: SkuItem[] = valueCombinations.map((values: SpecValue[], index) => {
@@ -829,8 +853,18 @@ const generateSkuList = (): void => {
     // 数据库中的 specIds可能是下划线分隔，而您生成的 specIds是竖线分隔
     const specIds = values.map((v) => v.id).join("_"); // 改为竖线
 
+    console.log(`🔍 组合 ${index + 1}:`, {
+      specValues,
+      specIds,
+      values: values.map(v => v.value)
+    });
+
     // 查找现有SKU
-    const existingSku = skuForm.value.skuList.find((sku) => sku.specIds === specIds);
+    // 查找现有SKU
+    const existingSku = skuForm.value.skuList.find((sku) => {
+      // 通过规格值组合或规格ID组合来查找
+      return sku.specIds === specIds || sku.specValues === specValues;
+    });
 
     console.log(`✅ 查找现有SKU`,existingSku);
 
@@ -858,8 +892,7 @@ const generateSkuList = (): void => {
   });
 
   skuForm.value.skuList = newSkus;
-  console.log(`✅ 生成 ${newSkus.length} 个SKU`);
-  console.log(`✅ 生成SKU`,newSkus);
+  console.log(`✅ 生成 ${newSkus.length} 个SKU`, newSkus);
 };
 
 /**
@@ -962,8 +995,20 @@ const handleSubmit = async (): Promise<void> => {
       return;
     }
 
+
+
     // 6. 准备提交数据
     const submitData = { ...goodsInfo.value };
+
+
+    // 确保 origin_price 有值
+    if (!submitData.originPrice && submitData.originPrice !== 0) {
+      // 如果没有设置原价，使用第一个SKU的价格或设置默认值
+        submitData.originPrice = 0; // 默认值
+    } else {
+      // 如果前端传递的是元，转换为分
+      submitData.originPrice = Math.round(Number(submitData.originPrice) * 100);
+    }
 
     // 处理规格数据 - 按照后端期望的格式
     const processedSpecs: any[] = [];
@@ -1036,6 +1081,33 @@ const handleSubmit = async (): Promise<void> => {
     console.log("📤 完整提交数据:", submitData);
 
     // 7. 调用API
+
+    console.log("📤 开始提交商品数据");
+    console.log("📤 商品基本信息:", {
+      name: submitData.name,
+      categoryId: submitData.categoryId,
+      originPrice: submitData.originPrice,  // 检查这个值
+      price: submitData.price,
+      album: submitData.album?.length || 0,
+      detailLength: submitData.detail?.length || 0
+    });
+    console.log("📤 规格数量:", submitData.specList?.length || 0);
+    console.log("📤 SKU数量:", submitData.skuList?.length || 0);
+
+    // 验证必填字段
+    const requiredFields = {
+      name: submitData.name,
+      categoryId: submitData.categoryId,
+      originPrice: submitData.originPrice,
+      price: submitData.price
+    };
+
+    for (const [field, value] of Object.entries(requiredFields)) {
+      if (value === undefined || value === null || value === '') {
+        console.error(`❌ 必填字段 ${field} 为空:`, value);
+      }
+    }
+
     if (goodsInfo.value.id) {
       // 编辑
       await PmsSpuAPI.update(goodsInfo.value.id, submitData);
