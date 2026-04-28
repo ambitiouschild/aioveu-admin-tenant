@@ -6,8 +6,7 @@
       :search-config="searchConfig"
       @query-click="handleQueryClick"
       @reset-click="handleResetClick"
-    >
-    </page-search>
+    ></page-search>
 
     <!-- 列表 -->
     <page-content
@@ -19,23 +18,31 @@
       @toolbar-click="handleToolbarClick"
       @operate-click="handleOperateClick"
       @filter-change="handleFilterChange"
-    >
-    </page-content>
+    ></page-content>
 
     <!-- 新增 -->
-    <page-modal ref="addModalRef" :modal-config="addModalConfig" @submit-click="handleSubmitClick">
-    </page-modal>
+    <page-modal
+      ref="addModalRef"
+      :modal-config="addModalConfig"
+      @submit-click="handleSubmitClick"
+    ></page-modal>
 
     <!-- 编辑 -->
-    <page-modal ref="editModalRef" :modal-config="editModalConfig" @submit-click="handleSubmitClick">
-    </page-modal>
+    <page-modal
+      ref="editModalRef"
+      :modal-config="editModalConfig"
+      @submit-click="handleSubmitClick"
+    ></page-modal>
   </div>
 </template>
 
 <script setup lang="ts">
 defineOptions({ name: "TenantWxApp" });
 
-import TenantWxAppAPI ,{ TenantWxAppForm, TenantWxAppPageQuery }from "@/api/aioveuMall/aioveuMallTenant/aioveuMallTenantWxApp/tenant-wx-app";
+import TenantWxAppAPI, {
+  TenantWxAppForm,
+  TenantWxAppPageQuery,
+} from "@/api/aioveuMall/aioveuMallTenant/aioveuMallTenantWxApp/tenant-wx-app";
 // import type { TenantWxAppForm, TenantWxAppPageQuery } from "@/api/types";
 import type { IObject, IModalConfig, IContentConfig, ISearchConfig } from "@/components/CURD/types";
 import usePage from "@/components/CURD/usePage";
@@ -158,18 +165,78 @@ const contentConfig: IContentConfig<TenantWxAppPageQuery> = reactive({
   cols: [
     { type: "selection", width: 55, align: "center" },
     { label: "", prop: "id" },
-    { label: "租户ID", prop: "tenantId" },
-    { label: "微信小程序ID", prop: "wxAppid" },
-    { label: "小程序/公众号密钥", prop: "appSecret" },
-    { label: "应用名称", prop: "appName" },
-    { label: "应用类型", prop: "appType" },
-    { label: "状态", prop: "status" },
-    { label: "微信小程序appname", prop: "wxAppname" },
-    { label: "微信小程序注册邮箱", prop: "registeredEmail" },
-    { label: "是否为默认小程序", prop: "isDefault" },
-    { label: "逻辑删除：0-未删除 1-已删除", prop: "isDeleted" },
-    { label: "创建时间", prop: "createTime" },
-    { label: "更新时间", prop: "updateTime" },
+    {
+      label: "租户ID",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "tenantId",
+    },
+    {
+      label: "微信小程序ID",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "wxAppid",
+    },
+    {
+      label: "小程序/公众号密钥",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "appSecret",
+    },
+    {
+      label: "应用名称",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "appName",
+    },
+    {
+      label: "应用类型",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "appType",
+    },
+    {
+      label: "状态",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "status",
+    },
+    {
+      label: "微信小程序appname",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "wxAppname",
+    },
+    {
+      label: "微信小程序注册邮箱",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "registeredEmail",
+    },
+    {
+      label: "是否为默认小程序",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "isDefault",
+    },
+    {
+      label: "逻辑删除：0-未删除 1-已删除",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "isDeleted",
+    },
+    {
+      label: "创建时间",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "createTime",
+    },
+    {
+      label: "更新时间",
+      width: 150, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "updateTime",
+    },
     {
       label: "操作",
       prop: "operation",
@@ -194,7 +261,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
   },
   form: {
     labelWidth: 100,
-    labelPosition: 'top', // 标签置顶，更适合宽表单
+    labelPosition: "top", // 标签置顶，更适合宽表单
   },
   // 表单项配置
   formItems: [
@@ -209,7 +276,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "租户ID"
+        placeholder: "租户ID",
       },
       rules: [{ required: true, message: "租户ID不能为空", trigger: "blur" }],
       label: "租户ID",
@@ -218,7 +285,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "微信小程序ID"
+        placeholder: "微信小程序ID",
       },
       rules: [{ required: true, message: "微信小程序ID不能为空", trigger: "blur" }],
       label: "微信小程序ID",
@@ -227,7 +294,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "小程序/公众号密钥"
+        placeholder: "小程序/公众号密钥",
       },
       rules: [{ required: true, message: "小程序/公众号密钥不能为空", trigger: "blur" }],
       label: "小程序/公众号密钥",
@@ -236,7 +303,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "应用名称"
+        placeholder: "应用名称",
       },
       rules: [{ required: true, message: "应用名称不能为空", trigger: "blur" }],
       label: "应用名称",
@@ -245,7 +312,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "应用类型"
+        placeholder: "应用类型",
       },
       label: "应用类型",
       prop: "appType",
@@ -253,7 +320,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "状态"
+        placeholder: "状态",
       },
       rules: [{ required: true, message: "状态不能为空", trigger: "blur" }],
       label: "状态",
@@ -262,7 +329,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "微信小程序appname"
+        placeholder: "微信小程序appname",
       },
       label: "微信小程序appname",
       prop: "wxAppname",
@@ -270,7 +337,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "微信小程序注册邮箱"
+        placeholder: "微信小程序注册邮箱",
       },
       label: "微信小程序注册邮箱",
       prop: "registeredEmail",
@@ -278,7 +345,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "是否为默认小程序"
+        placeholder: "是否为默认小程序",
       },
       label: "是否为默认小程序",
       prop: "isDefault",
@@ -286,7 +353,7 @@ const addModalConfig: IModalConfig<TenantWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "逻辑删除：0-未删除 1-已删除"
+        placeholder: "逻辑删除：0-未删除 1-已删除",
       },
       label: "逻辑删除：0-未删除 1-已删除",
       prop: "isDeleted",
@@ -314,7 +381,7 @@ const editModalConfig: IModalConfig<TenantWxAppForm> = reactive({
   },
   form: {
     labelWidth: 100,
-    labelPosition: 'top', // 标签置顶，更适合宽表单
+    labelPosition: "top", // 标签置顶，更适合宽表单
   },
   pk: "id",
   formAction(data: any) {
@@ -336,5 +403,4 @@ const handleOperateClick = (data: IObject) => {
 const handleToolbarClick = (name: string) => {
   console.log(name);
 };
-
 </script>

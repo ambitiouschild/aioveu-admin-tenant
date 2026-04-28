@@ -6,8 +6,7 @@
       :search-config="searchConfig"
       @query-click="handleQueryClick"
       @reset-click="handleResetClick"
-    >
-    </page-search>
+    ></page-search>
 
     <!-- 列表 -->
     <page-content
@@ -19,23 +18,31 @@
       @toolbar-click="handleToolbarClick"
       @operate-click="handleOperateClick"
       @filter-change="handleFilterChange"
-    >
-    </page-content>
+    ></page-content>
 
     <!-- 新增 -->
-    <page-modal ref="addModalRef" :modal-config="addModalConfig" @submit-click="handleSubmitClick">
-    </page-modal>
+    <page-modal
+      ref="addModalRef"
+      :modal-config="addModalConfig"
+      @submit-click="handleSubmitClick"
+    ></page-modal>
 
     <!-- 编辑 -->
-    <page-modal ref="editModalRef" :modal-config="editModalConfig" @submit-click="handleSubmitClick">
-    </page-modal>
+    <page-modal
+      ref="editModalRef"
+      :modal-config="editModalConfig"
+      @submit-click="handleSubmitClick"
+    ></page-modal>
   </div>
 </template>
 
 <script setup lang="ts">
 defineOptions({ name: "OauthClientWxApp" });
 
-import OauthClientWxAppAPI ,{ OauthClientWxAppForm, OauthClientWxAppPageQuery }from "@/api/aioveuMall/aioveuMallTenant/aioveuMallTenantOauthClientWxApp/oauth-client-wx-app";
+import OauthClientWxAppAPI, {
+  OauthClientWxAppForm,
+  OauthClientWxAppPageQuery,
+} from "@/api/aioveuMall/aioveuMallTenant/aioveuMallTenantOauthClientWxApp/oauth-client-wx-app";
 // import type { OauthClientWxAppForm, OauthClientWxAppPageQuery } from "@/api/types";
 import type { IObject, IModalConfig, IContentConfig, ISearchConfig } from "@/components/CURD/types";
 import usePage from "@/components/CURD/usePage";
@@ -148,13 +155,48 @@ const contentConfig: IContentConfig<OauthClientWxAppPageQuery> = reactive({
   cols: [
     { type: "selection", width: 55, align: "center" },
     { label: "", prop: "id" },
-    { label: "OAuth2 client客户端 ID", prop: "clientId" },
-    { label: "微信小程序appid", prop: "wxAppid" },
-    { label: "微信小程序appname", prop: "wxAppname" },
-    { label: "微信小程序注册邮箱", prop: "registeredEmail" },
-    { label: "逻辑删除：0-未删除 1-已删除", prop: "isDeleted" },
-    { label: "创建时间", prop: "createTime" },
-    { label: "更新时间", prop: "updateTime" },
+    {
+      label: "OAuth2 client客户端 ID",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "clientId",
+    },
+    {
+      label: "微信小程序appid",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "wxAppid",
+    },
+    {
+      label: "微信小程序appname",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "wxAppname",
+    },
+    {
+      label: "微信小程序注册邮箱",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "registeredEmail",
+    },
+    {
+      label: "逻辑删除：0-未删除 1-已删除",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "isDeleted",
+    },
+    {
+      label: "创建时间",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "createTime",
+    },
+    {
+      label: "更新时间",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "updateTime",
+    },
     {
       label: "操作",
       prop: "operation",
@@ -185,7 +227,7 @@ const addModalConfig: IModalConfig<OauthClientWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: ""
+        placeholder: "",
       },
       label: "",
       prop: "id",
@@ -193,7 +235,7 @@ const addModalConfig: IModalConfig<OauthClientWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "OAuth2 client客户端 ID"
+        placeholder: "OAuth2 client客户端 ID",
       },
       rules: [{ required: true, message: "OAuth2 client客户端 ID不能为空", trigger: "blur" }],
       label: "OAuth2 client客户端 ID",
@@ -202,7 +244,7 @@ const addModalConfig: IModalConfig<OauthClientWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "微信小程序appid"
+        placeholder: "微信小程序appid",
       },
       rules: [{ required: true, message: "微信小程序appid不能为空", trigger: "blur" }],
       label: "微信小程序appid",
@@ -211,7 +253,7 @@ const addModalConfig: IModalConfig<OauthClientWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "微信小程序appname"
+        placeholder: "微信小程序appname",
       },
       label: "微信小程序appname",
       prop: "wxAppname",
@@ -219,7 +261,7 @@ const addModalConfig: IModalConfig<OauthClientWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "微信小程序注册邮箱"
+        placeholder: "微信小程序注册邮箱",
       },
       label: "微信小程序注册邮箱",
       prop: "registeredEmail",
@@ -227,7 +269,7 @@ const addModalConfig: IModalConfig<OauthClientWxAppForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "逻辑删除：0-未删除 1-已删除"
+        placeholder: "逻辑删除：0-未删除 1-已删除",
       },
       label: "逻辑删除：0-未删除 1-已删除",
       prop: "isDeleted",
@@ -273,5 +315,4 @@ const handleOperateClick = (data: IObject) => {
 const handleToolbarClick = (name: string) => {
   console.log(name);
 };
-
 </script>
