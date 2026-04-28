@@ -6,8 +6,7 @@
       :search-config="searchConfig"
       @query-click="handleQueryClick"
       @reset-click="handleResetClick"
-    >
-    </page-search>
+    ></page-search>
 
     <!-- 列表 -->
     <page-content
@@ -20,12 +19,11 @@
       @operate-click="handleOperateClick"
       @filter-change="handleFilterChange"
     >
-
       <!-- 为图片列添加自定义插槽（如果image类型不满足需求） -->
       <template #icon="{ row }">
         <el-image
           v-if="row.icon"
-          style="width: 80px; height: 80px; border-radius: 4px;"
+          style="width: 80px; height: 80px; border-radius: 4px"
           :src="row.icon"
           :preview-src-list="[row.icon]"
           fit="cover"
@@ -47,12 +45,10 @@
         </el-image>
         <span v-else>-</span>
       </template>
-
     </page-content>
 
     <!-- 新增 -->
     <page-modal ref="addModalRef" :modal-config="addModalConfig" @submit-click="handleSubmitClick">
-
       <!-- 自定义图片上传组件 -->
       <template #iconUpload="{ formData, setField }">
         <el-form-item label="菜单图标" prop="icon">
@@ -63,17 +59,17 @@
             :style="{ width: '200px', height: '200px' }"
             @change="(url: string) => setField('icon', url)"
           />
-          <div class="upload-tips">
-            最大图片大小：5MB，支持格式：JPG、JPEG、PNG
-          </div>
+          <div class="upload-tips">最大图片大小：5MB，支持格式：JPG、JPEG、PNG</div>
         </el-form-item>
       </template>
-
     </page-modal>
 
     <!-- 编辑 -->
-    <page-modal ref="editModalRef" :modal-config="editModalConfig" @submit-click="handleSubmitClick">
-
+    <page-modal
+      ref="editModalRef"
+      :modal-config="editModalConfig"
+      @submit-click="handleSubmitClick"
+    >
       <!-- 自定义图片上传组件 -->
       <template #iconUpload="{ formData, setField }">
         <el-form-item label="菜单图标" prop="icon">
@@ -84,12 +80,9 @@
             :style="{ width: '200px', height: '200px' }"
             @change="(url: string) => setField('icon', url)"
           />
-          <div class="upload-tips">
-            最大图片大小：5MB，支持格式：JPG、JPEG、PNG
-          </div>
+          <div class="upload-tips">最大图片大小：5MB，支持格式：JPG、JPEG、PNG</div>
         </el-form-item>
       </template>
-
     </page-modal>
   </div>
 </template>
@@ -97,8 +90,10 @@
 <script setup lang="ts">
 defineOptions({ name: "ManagerMenuCategory" });
 
-import ManagerMenuCategoryAPI ,{ ManagerMenuCategoryForm, ManagerMenuCategoryPageQuery }
-  from "@/api/aioveuMall/aioveuMallTenant/aioveuMallManagerMenuCategory/manager-menu-category";
+import ManagerMenuCategoryAPI, {
+  ManagerMenuCategoryForm,
+  ManagerMenuCategoryPageQuery,
+} from "@/api/aioveuMall/aioveuMallTenant/aioveuMallManagerMenuCategory/manager-menu-category";
 // import type { ManagerMenuCategoryForm, ManagerMenuCategoryPageQuery } from "@/api/types";
 import type { IObject, IModalConfig, IContentConfig, ISearchConfig } from "@/components/CURD/types";
 import usePage from "@/components/CURD/usePage";
@@ -211,10 +206,21 @@ const contentConfig: IContentConfig<ManagerMenuCategoryPageQuery> = reactive({
   cols: [
     { type: "selection", width: 55, align: "center" },
     { label: "主键ID", prop: "id" },
-    { label: "租户ID，0表示平台默认", prop: "tenantId" },
-    { label: "分类标题", prop: "title" },
+    {
+      label: "租户ID，0表示平台默认",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "tenantId",
+    },
+    {
+      label: "分类标题",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "title",
+    },
 
-    { label: "分类图标",
+    {
+      label: "分类图标",
       prop: "icon",
       width: 100,
       templet: "image", // 使用插槽  // 使用image类型显示图片
@@ -223,22 +229,77 @@ const contentConfig: IContentConfig<ManagerMenuCategoryPageQuery> = reactive({
         fit: "cover", // 填充方式
         lazy: true, // 懒加载
         hideOnClickModal: true, // 点击遮罩层关闭
-        previewSrcList: (row:any) => [row.icon] // 预览图片列表
+        previewSrcList: (row: any) => [row.icon], // 预览图片列表
       },
-      slotName: "icon" // 添加插槽名称，如果image类型不满足可以自定义
+      slotName: "icon", // 添加插槽名称，如果image类型不满足可以自定义
     },
 
-    { label: "分类描述", prop: "description" },
-    { label: "排序序号", prop: "sort" },
-    { label: "状态：0-禁用，1-启用", prop: "status" },
-    { label: "分类类型：workbench-工作台，sidebar-侧边栏", prop: "type" },
-    { label: "可见范围：0-所有用户，1-租户管理员，2-普通用户", prop: "visibleRange" },
-    { label: "是否可编辑：0-系统内置，1-可编辑", prop: "isEditable" },
-    { label: "创建人ID", prop: "createBy" },
-    { label: "更新人ID", prop: "updateBy" },
-    { label: "逻辑删除：0-未删除 1-已删除", prop: "isDeleted" },
-    { label: "创建时间", prop: "createTime" },
-    { label: "更新时间", prop: "updateTime" },
+    {
+      label: "分类描述",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "description",
+    },
+    {
+      label: "排序序号",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "sort",
+    },
+    {
+      label: "状态：0-禁用，1-启用",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "status",
+    },
+    {
+      label: "分类类型：workbench-工作台，sidebar-侧边栏",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "type",
+    },
+    {
+      label: "可见范围：0-所有用户，1-租户管理员，2-普通用户",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "visibleRange",
+    },
+    {
+      label: "是否可编辑：0-系统内置，1-可编辑",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "isEditable",
+    },
+    {
+      label: "创建人ID",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "createBy",
+    },
+    {
+      label: "更新人ID",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "updateBy",
+    },
+    {
+      label: "逻辑删除：0-未删除 1-已删除",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "isDeleted",
+    },
+    {
+      label: "创建时间",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "createTime",
+    },
+    {
+      label: "更新时间",
+      width: 250, // 增加宽度以防止内容换行 // ✅ Element UI 支持 'auto'
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "updateTime",
+    },
     {
       label: "操作",
       prop: "operation",
@@ -263,13 +324,14 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
   },
   form: {
     labelWidth: 100,
+    labelPosition: "top", // 标签置顶，更适合宽表单
   },
   // 表单项配置
   formItems: [
     {
       type: "input",
       attrs: {
-        placeholder: "主键ID"
+        placeholder: "主键ID",
       },
       label: "主键ID",
       prop: "id",
@@ -277,7 +339,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "租户ID，0表示平台默认"
+        placeholder: "租户ID，0表示平台默认",
       },
       rules: [{ required: true, message: "租户ID，0表示平台默认不能为空", trigger: "blur" }],
       label: "租户ID，0表示平台默认",
@@ -286,7 +348,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "分类标题"
+        placeholder: "分类标题",
       },
       rules: [{ required: true, message: "分类标题不能为空", trigger: "blur" }],
       label: "分类标题",
@@ -296,19 +358,17 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     {
       type: "custom", // 使用自定义类型
       attrs: {
-        placeholder: "分类图标"
+        placeholder: "分类图标",
       },
       label: "分类图标",
       prop: "icon",
-      slotName: "iconUpload" // 指定插槽名称
+      slotName: "iconUpload", // 指定插槽名称
     },
-
-
 
     {
       type: "input",
       attrs: {
-        placeholder: "分类描述"
+        placeholder: "分类描述",
       },
       label: "分类描述",
       prop: "description",
@@ -316,7 +376,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "排序序号"
+        placeholder: "排序序号",
       },
       rules: [{ required: true, message: "排序序号不能为空", trigger: "blur" }],
       label: "排序序号",
@@ -328,7 +388,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
         activeText: "启用",
         inactiveText: "禁用",
         activeValue: 1,
-        inactiveValue: 0
+        inactiveValue: 0,
       },
       initialValue: 1,
       label: "状态：0-禁用，1-启用",
@@ -337,7 +397,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "分类类型：workbench-工作台，sidebar-侧边栏"
+        placeholder: "分类类型：workbench-工作台，sidebar-侧边栏",
       },
       label: "分类类型：workbench-工作台，sidebar-侧边栏",
       prop: "type",
@@ -345,7 +405,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "可见范围：0-所有用户，1-租户管理员，2-普通用户"
+        placeholder: "可见范围：0-所有用户，1-租户管理员，2-普通用户",
       },
       label: "可见范围：0-所有用户，1-租户管理员，2-普通用户",
       prop: "visibleRange",
@@ -353,7 +413,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "是否可编辑：0-系统内置，1-可编辑"
+        placeholder: "是否可编辑：0-系统内置，1-可编辑",
       },
       label: "是否可编辑：0-系统内置，1-可编辑",
       prop: "isEditable",
@@ -361,7 +421,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "创建人ID"
+        placeholder: "创建人ID",
       },
       label: "创建人ID",
       prop: "createBy",
@@ -369,7 +429,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "更新人ID"
+        placeholder: "更新人ID",
       },
       label: "更新人ID",
       prop: "updateBy",
@@ -379,7 +439,7 @@ const addModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
   formAction: (data: ManagerMenuCategoryForm) => {
     if (data.id) {
       // 编辑
-      return ManagerMenuCategoryAPI.update(data.id , data);
+      return ManagerMenuCategoryAPI.update(data.id, data);
     } else {
       // 新增
       return ManagerMenuCategoryAPI.create(data);
@@ -396,14 +456,13 @@ const editModalConfig: IModalConfig<ManagerMenuCategoryForm> = reactive({
     size: 800,
     // direction: "ltr", // 从左向右，表示左侧打开
   },
-  // 设置表单标签位置为居左
   form: {
     labelWidth: 100,
-    labelPosition: "left", // 标签居左
+    labelPosition: "top", // 标签置顶，更适合宽表单
   },
   pk: "id",
   formAction(data: any) {
-    return ManagerMenuCategoryAPI.update(data.id , data);
+    return ManagerMenuCategoryAPI.update(data.id, data);
   },
   formItems: addModalConfig.formItems, // 复用新增的表单项
 });
@@ -421,5 +480,4 @@ const handleOperateClick = (data: IObject) => {
 const handleToolbarClick = (name: string) => {
   console.log(name);
 };
-
 </script>
