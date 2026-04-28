@@ -6,8 +6,7 @@
       :search-config="searchConfig"
       @query-click="handleQueryClick"
       @reset-click="handleResetClick"
-    >
-    </page-search>
+    ></page-search>
 
     <!-- 列表 -->
     <page-content
@@ -19,24 +18,31 @@
       @toolbar-click="handleToolbarClick"
       @operate-click="handleOperateClick"
       @filter-change="handleFilterChange"
-    >
-    </page-content>
+    ></page-content>
 
     <!-- 新增 -->
-    <page-modal ref="addModalRef" :modal-config="addModalConfig" @submit-click="handleSubmitClick">
-    </page-modal>
+    <page-modal
+      ref="addModalRef"
+      :modal-config="addModalConfig"
+      @submit-click="handleSubmitClick"
+    ></page-modal>
 
     <!-- 编辑 -->
-    <page-modal ref="editModalRef" :modal-config="editModalConfig" @submit-click="handleSubmitClick">
-    </page-modal>
+    <page-modal
+      ref="editModalRef"
+      :modal-config="editModalConfig"
+      @submit-click="handleSubmitClick"
+    ></page-modal>
   </div>
 </template>
 
 <script setup lang="ts">
 defineOptions({ name: "Oauth2RegisteredClient" });
 
-import Oauth2RegisteredClientAPI , { Oauth2RegisteredClientForm, Oauth2RegisteredClientPageQuery }
-  from "@/api/aioveuMall/aioveuMallAuth/aioveuMallAuthOauth2RegisteredClient/oauth2-registered-client";
+import Oauth2RegisteredClientAPI, {
+  Oauth2RegisteredClientForm,
+  Oauth2RegisteredClientPageQuery,
+} from "@/api/aioveuMall/aioveuMallAuth/aioveuMallAuthOauth2RegisteredClient/oauth2-registered-client";
 // import type { Oauth2RegisteredClientForm, Oauth2RegisteredClientPageQuery } from "@/api/types";
 import type { IObject, IModalConfig, IContentConfig, ISearchConfig } from "@/components/CURD/types";
 import usePage from "@/components/CURD/usePage";
@@ -155,22 +161,105 @@ const contentConfig: IContentConfig<Oauth2RegisteredClientPageQuery> = reactive(
   // 工具栏配置
   toolbar: ["add", "delete"],
   defaultToolbar: ["refresh", "filter"],
+  // 设置表格行高
+  height: "full-100", // 自适应高度，减100px
+  // 或固定高度
+  // height: 600,
+
+  // 设置单元格样式
+  cellMinWidth: 100, // 全局最小单元格宽度
+
+  // 设置行高样式
+  lineStyle: "height: 50px;", // 行高50px
+
+  // 启用横向滚动
+  size: "lg", // 大尺寸
+  scrollPos: "fixed", // 固定表头
+  autoSort: false,
+
+  // 添加斑马纹样式
+  even: true,
   // 表格列配置
   cols: [
     { type: "selection", width: 55, align: "center" },
-    { label: "客户端记录的唯一标识符，通常是UUID", prop: "id" },
-    { label: "客户端标识符，OAuth2请求中使用的client_id", prop: "clientId" },
-    { label: "客户端ID的创建时间", prop: "clientIdIssuedAt" },
-    { label: "客户端密钥，已加密存储。公共客户端可为NULL", prop: "clientSecret" },
-    { label: "客户端密钥的过期时间，NULL表示永不过期", prop: "clientSecretExpiresAt" },
-    { label: "客户端显示名称，用于用户界面显示", prop: "clientName" },
-    { label: "支持的客户端认证方法，JSON格式数组。", prop: "clientAuthenticationMethods" },
-    { label: "支持的授权类型，JSON格式数组。", prop: "authorizationGrantTypes" },
-    { label: "允许的重定向URI列表，JSON格式数组。必须与授权请求中的redirect_uri完全匹配", prop: "redirectUris" },
-    { label: "登出后的重定向URI列表，JSON格式数组", prop: "postLogoutRedirectUris" },
-    { label: "客户端可请求的范围列表，JSON格式数组。", prop: "scopes" },
-    { label: "客户端设置，JSON格式。包含requireAuthorizationConsent、requireProofKey等配置", prop: "clientSettings" },
-    { label: "令牌设置，JSON格式。包含accessTokenTimeToLive、refreshTokenTimeToLive等配置", prop: "tokenSettings" },
+    {
+      label: "客户端记录的唯一标识符，通常是UUID",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "id",
+    },
+    {
+      label: "客户端标识符，OAuth2请求中使用的client_id",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "clientId",
+    },
+    {
+      label: "客户端ID的创建时间",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "clientIdIssuedAt",
+    },
+    {
+      label: "客户端密钥，已加密存储。公共客户端可为NULL",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "clientSecret",
+    },
+    {
+      label: "客户端密钥的过期时间，NULL表示永不过期",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "clientSecretExpiresAt",
+    },
+    {
+      label: "客户端显示名称，用于用户界面显示",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "clientName",
+    },
+    {
+      label: "支持的客户端认证方法，JSON格式数组。",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "clientAuthenticationMethods",
+    },
+    {
+      label: "支持的授权类型，JSON格式数组。",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "authorizationGrantTypes",
+    },
+    {
+      label: "允许的重定向URI列表，JSON格式数组。必须与授权请求中的redirect_uri完全匹配",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "redirectUris",
+    },
+    {
+      label: "登出后的重定向URI列表，JSON格式数组",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "postLogoutRedirectUris",
+    },
+    {
+      label: "客户端可请求的范围列表，JSON格式数组。",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "scopes",
+    },
+    {
+      label: "客户端设置，JSON格式。包含requireAuthorizationConsent、requireProofKey等配置",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "clientSettings",
+    },
+    {
+      label: "令牌设置，JSON格式。包含accessTokenTimeToLive、refreshTokenTimeToLive等配置",
+      width: 350, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "tokenSettings",
+    },
     {
       label: "操作",
       prop: "operation",
@@ -195,7 +284,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
   },
   form: {
     labelWidth: 100,
-    labelPosition: 'top', // 标签置顶，更适合宽表单
+    labelPosition: "top", // 标签置顶，更适合宽表单
   },
   // 表单项配置
   formItems: [
@@ -210,21 +299,27 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "客户端标识符，OAuth2请求中使用的client_id"
+        placeholder: "客户端标识符，OAuth2请求中使用的client_id",
       },
-      rules: [{ required: true, message: "客户端标识符，OAuth2请求中使用的client_id不能为空", trigger: "blur" }],
+      rules: [
+        {
+          required: true,
+          message: "客户端标识符，OAuth2请求中使用的client_id不能为空",
+          trigger: "blur",
+        },
+      ],
       label: "客户端标识符，OAuth2请求中使用的client_id【xinhuan-app】",
       prop: "clientId",
     },
     {
-      type: "date-picker",   // 修改为date-picker类型
+      type: "date-picker", // 修改为date-picker类型
       attrs: {
-        type: "datetime",  // 日期时间选择器
+        type: "datetime", // 日期时间选择器
         placeholder: "客户端ID的创建时间",
-        "value-format": "YYYY-MM-DD HH:mm:ss",  // 绑定值格式
-        "format": "YYYY-MM-DD HH:mm:ss",  // 显示格式
-        style: "width: 100%",  // 宽度100%
-        clearable: true  // 可清空
+        "value-format": "YYYY-MM-DD HH:mm:ss", // 绑定值格式
+        format: "YYYY-MM-DD HH:mm:ss", // 显示格式
+        style: "width: 100%", // 宽度100%
+        clearable: true, // 可清空
       },
       rules: [{ required: true, message: "客户端ID的创建时间不能为空", trigger: "blur" }],
       label: "客户端ID的创建时间",
@@ -233,7 +328,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "客户端密钥，已加密存储。公共客户端可为NULL"
+        placeholder: "客户端密钥，已加密存储。公共客户端可为NULL",
       },
       label: "客户端密钥，已加密存储。公共客户端可为NULL【123456】",
       prop: "clientSecret",
@@ -241,7 +336,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "客户端密钥的过期时间，NULL表示永不过期"
+        placeholder: "客户端密钥的过期时间，NULL表示永不过期",
       },
       label: "客户端密钥的过期时间，NULL表示永不过期",
       prop: "clientSecretExpiresAt",
@@ -249,16 +344,18 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "客户端显示名称，用于用户界面显示"
+        placeholder: "客户端显示名称，用于用户界面显示",
       },
-      rules: [{ required: true, message: "客户端显示名称，用于用户界面显示不能为空", trigger: "blur" }],
+      rules: [
+        { required: true, message: "客户端显示名称，用于用户界面显示不能为空", trigger: "blur" },
+      ],
       label: "客户端显示名称，用于用户界面显示【可我不敌心欢】",
       prop: "clientName",
     },
     {
       type: "input",
       attrs: {
-        placeholder: "支持的客户端认证方法，JSON格式数组。"
+        placeholder: "支持的客户端认证方法，JSON格式数组。",
       },
       label: "支持的客户端认证方法，JSON格式数组。【client_secret_basic】",
       prop: "clientAuthenticationMethods",
@@ -266,23 +363,25 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "支持的授权类型，JSON格式数组。"
+        placeholder: "支持的授权类型，JSON格式数组。",
       },
-      label: "支持的授权类型，JSON格式数组。【refresh_token,client_credentials,authorization_code,sms_code,wechat】",
+      label:
+        "支持的授权类型，JSON格式数组。【refresh_token,client_credentials,authorization_code,sms_code,wechat】",
       prop: "authorizationGrantTypes",
     },
     {
       type: "input",
       attrs: {
-        placeholder: "允许的重定向URI列表，JSON格式数组。必须与授权请求中的redirect_uri完全匹配"
+        placeholder: "允许的重定向URI列表，JSON格式数组。必须与授权请求中的redirect_uri完全匹配",
       },
-      label: "允许的重定向URI列表，JSON格式数组。必须与授权请求中的redirect_uri完全匹配【http://127.0.0.1:8080/authorized】",
+      label:
+        "允许的重定向URI列表，JSON格式数组。必须与授权请求中的redirect_uri完全匹配【http://127.0.0.1:8080/authorized】",
       prop: "redirectUris",
     },
     {
       type: "input",
       attrs: {
-        placeholder: "登出后的重定向URI列表，JSON格式数组"
+        placeholder: "登出后的重定向URI列表，JSON格式数组",
       },
       label: "登出后的重定向URI列表，JSON格式数组【http://127.0.0.1:8080/logged-out】",
       prop: "postLogoutRedirectUris",
@@ -290,7 +389,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "客户端可请求的范围列表，JSON格式数组。"
+        placeholder: "客户端可请求的范围列表，JSON格式数组。",
       },
       label: "客户端可请求的范围列表，JSON格式数组。【openid,profile】",
       prop: "scopes",
@@ -298,7 +397,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "客户端设置，JSON格式。包含requireAuthorizationConsent、requireProofKey等配置"
+        placeholder: "客户端设置，JSON格式。包含requireAuthorizationConsent、requireProofKey等配置",
       },
       label: "客户端设置，JSON格式。包含requireAuthorizationConsent、requireProofKey等配置",
       prop: "clientSettings",
@@ -306,7 +405,7 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "令牌设置，JSON格式。包含accessTokenTimeToLive、refreshTokenTimeToLive等配置"
+        placeholder: "令牌设置，JSON格式。包含accessTokenTimeToLive、refreshTokenTimeToLive等配置",
       },
       label: "令牌设置，JSON格式。包含accessTokenTimeToLive、refreshTokenTimeToLive等配置",
       prop: "tokenSettings",
@@ -352,5 +451,4 @@ const handleOperateClick = (data: IObject) => {
 const handleToolbarClick = (name: string) => {
   console.log(name);
 };
-
 </script>
