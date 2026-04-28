@@ -431,6 +431,10 @@ const editModalConfig: IModalConfig<Oauth2RegisteredClientForm> = reactive({
     title: "编辑",
     size: 500,
   },
+  form: {
+    labelWidth: 100,
+    labelPosition: "top", // 标签置顶，更适合宽表单
+  },
   pk: "id",
   formAction(data: any) {
     return Oauth2RegisteredClientAPI.update(data.id as string, data);
