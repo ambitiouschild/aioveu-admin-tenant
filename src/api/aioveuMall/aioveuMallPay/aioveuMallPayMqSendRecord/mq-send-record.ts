@@ -45,7 +45,7 @@ const MqSendRecordAPI = {
    * @param id MQ消息发送记录ID
    * @param data MQ消息发送记录表单数据
    */
-  update(id: string, data: MqSendRecordForm) {
+  update(id: number, data: MqSendRecordForm) {
     return request({
       url: `${MQ_SEND_RECORD_BASE_URL}/${id}`,
       method: "put",

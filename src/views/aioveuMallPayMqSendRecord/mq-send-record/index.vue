@@ -6,8 +6,7 @@
       :search-config="searchConfig"
       @query-click="handleQueryClick"
       @reset-click="handleResetClick"
-    >
-    </page-search>
+    ></page-search>
 
     <!-- 列表 -->
     <page-content
@@ -19,28 +18,32 @@
       @toolbar-click="handleToolbarClick"
       @operate-click="handleOperateClick"
       @filter-change="handleFilterChange"
-    >
-    </page-content>
+    ></page-content>
 
     <!-- 新增 -->
     <page-modal
       ref="addModalRef"
       :modal-config="addModalConfig"
       @submit-click="handleSubmitClick"
-    >
-    </page-modal>
+    ></page-modal>
 
     <!-- 编辑 -->
-    <page-modal ref="editModalRef" :modal-config="editModalConfig" @submit-click="handleSubmitClick">
-    </page-modal>
+    <page-modal
+      ref="editModalRef"
+      :modal-config="editModalConfig"
+      @submit-click="handleSubmitClick"
+    ></page-modal>
   </div>
 </template>
 
 <script setup lang="ts">
 defineOptions({ name: "MqSendRecord" });
 
-import MqSendRecordAPI from "@/api/aioveuMallPay/mq-send-record";
-import type { MqSendRecordForm, MqSendRecordPageQuery } from "@/api/types";
+import MqSendRecordAPI, {
+  MqSendRecordForm,
+  MqSendRecordPageQuery,
+} from "@/api/aioveuMall/aioveuMallPay/aioveuMallPayMqSendRecord/mq-send-record";
+// import type { MqSendRecordForm, MqSendRecordPageQuery } from "@/api/types";
 import type { IObject, IModalConfig, IContentConfig, ISearchConfig } from "@/components/CURD/types";
 import usePage from "@/components/CURD/usePage";
 
@@ -240,7 +243,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: ""
+        placeholder: "",
       },
       label: "",
       prop: "id",
@@ -248,7 +251,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "租户ID，0表示平台默认"
+        placeholder: "租户ID，0表示平台默认",
       },
       label: "租户ID，0表示平台默认",
       prop: "tenantId",
@@ -256,7 +259,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "消息ID"
+        placeholder: "消息ID",
       },
       rules: [{ required: true, message: "消息ID不能为空", trigger: "blur" }],
       label: "消息ID",
@@ -265,7 +268,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "业务ID(支付单号)"
+        placeholder: "业务ID(支付单号)",
       },
       rules: [{ required: true, message: "业务ID(支付单号)不能为空", trigger: "blur" }],
       label: "业务ID(支付单号)",
@@ -274,7 +277,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "业务类型:payment_success"
+        placeholder: "业务类型:payment_success",
       },
       rules: [{ required: true, message: "业务类型:payment_success不能为空", trigger: "blur" }],
       label: "业务类型:payment_success",
@@ -283,7 +286,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "Topic"
+        placeholder: "Topic",
       },
       rules: [{ required: true, message: "Topic不能为空", trigger: "blur" }],
       label: "Topic",
@@ -292,7 +295,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "Tag"
+        placeholder: "Tag",
       },
       label: "Tag",
       prop: "tag",
@@ -300,7 +303,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "分片Key"
+        placeholder: "分片Key",
       },
       label: "分片Key",
       prop: "shardingKey",
@@ -308,7 +311,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "消息体(JSON格式)"
+        placeholder: "消息体(JSON格式)",
       },
       rules: [{ required: true, message: "消息体(JSON格式)不能为空", trigger: "blur" }],
       label: "消息体(JSON格式)",
@@ -317,16 +320,22 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败"
+        placeholder: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败",
       },
-      rules: [{ required: true, message: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败不能为空", trigger: "blur" }],
+      rules: [
+        {
+          required: true,
+          message: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败不能为空",
+          trigger: "blur",
+        },
+      ],
       label: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败",
       prop: "sendStatus",
     },
     {
       type: "input",
       attrs: {
-        placeholder: "重试次数"
+        placeholder: "重试次数",
       },
       label: "重试次数",
       prop: "retryCount",
@@ -334,7 +343,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "最大重试次数"
+        placeholder: "最大重试次数",
       },
       label: "最大重试次数",
       prop: "maxRetry",
@@ -342,7 +351,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "下次重试时间"
+        placeholder: "下次重试时间",
       },
       label: "下次重试时间",
       prop: "nextRetryTime",
@@ -350,7 +359,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "发送时间"
+        placeholder: "发送时间",
       },
       label: "发送时间",
       prop: "sendTime",
@@ -358,7 +367,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "确认时间"
+        placeholder: "确认时间",
       },
       label: "确认时间",
       prop: "confirmTime",
@@ -366,7 +375,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "错误信息"
+        placeholder: "错误信息",
       },
       label: "错误信息",
       prop: "errorMsg",
@@ -376,7 +385,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
   formAction: (data: MqSendRecordForm) => {
     if (data.id) {
       // 编辑
-      return MqSendRecordAPI.update(data.id as string, data);
+      return MqSendRecordAPI.update(data.id as number, data);
     } else {
       // 新增
       return MqSendRecordAPI.create(data);
@@ -394,7 +403,7 @@ const editModalConfig: IModalConfig<MqSendRecordForm> = reactive({
   },
   pk: "id",
   formAction(data: any) {
-    return MqSendRecordAPI.update(data.id as string, data);
+    return MqSendRecordAPI.update(data.id, data);
   },
   formItems: addModalConfig.formItems, // 复用新增的表单项
 });
@@ -412,5 +421,4 @@ const handleOperateClick = (data: IObject) => {
 const handleToolbarClick = (name: string) => {
   console.log(name);
 };
-
 </script>
