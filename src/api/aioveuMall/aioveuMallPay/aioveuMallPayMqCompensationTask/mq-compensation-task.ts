@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { MqCompensationTaskForm, MqCompensationTaskPageQuery, MqCompensationTaskPageVo } from "@/api/types";
 import { BaseQueryParams, PageQuery } from "@/types";
-const MQ_COMPENSATION_TASK_BASE_URL = "/api/v1/mq-compensation-task";
+const MQ_COMPENSATION_TASK_BASE_URL = "/aioveu-tenant-pay/api/v1/mq-compensation-task";
 
 const MqCompensationTaskAPI = {
   /** 获取MQ补偿任务分页数据 */

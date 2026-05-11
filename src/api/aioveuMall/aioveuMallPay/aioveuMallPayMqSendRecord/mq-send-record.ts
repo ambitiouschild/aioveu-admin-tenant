@@ -2,7 +2,7 @@ import request from "@/utils/request";
 // import type { MqSendRecordForm, MqSendRecordPageQuery, MqSendRecordPageVo } from "@/api/types";
 import { BaseQueryParams, PageQuery } from "@/types";
 
-const MQ_SEND_RECORD_BASE_URL = "/api/v1/mq-send-record";
+const MQ_SEND_RECORD_BASE_URL = "/aioveu-tenant-pay/api/v1/mq-send-record";
 
 const MqSendRecordAPI = {
   /** 获取MQ消息发送记录分页数据 */

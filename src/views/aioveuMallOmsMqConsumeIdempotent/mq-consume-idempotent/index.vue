@@ -37,13 +37,13 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: "MqCompensationTask" });
+defineOptions({ name: "MqConsumeIdempotent" });
 
-import MqCompensationTaskAPI, {
-  MqCompensationTaskForm,
-  MqCompensationTaskPageQuery,
-} from "@/api/aioveuMall/aioveuMallPay/aioveuMallPayMqCompensationTask/mq-compensation-task";
-// import type { MqCompensationTaskForm, MqCompensationTaskPageQuery } from "@/api/types";
+import MqConsumeIdempotentAPI, {
+  MqConsumeIdempotentForm,
+  MqConsumeIdempotentPageQuery,
+} from "@/api/aioveuMall/aioveuMallOms/aioveuMallOmsMqConsumeIdempotent/mq-consume-idempotent";
+// import type { MqConsumeIdempotentForm, MqConsumeIdempotentPageQuery } from "@/api/types";
 import type { IObject, IModalConfig, IContentConfig, ISearchConfig } from "@/components/CURD/types";
 import usePage from "@/components/CURD/usePage";
 
@@ -65,7 +65,7 @@ const {
 
 // 搜索配置
 const searchConfig: ISearchConfig = reactive({
-  permPrefix: "aioveuMallPayMqCompensationTask:mq-compensation-task",
+  permPrefix: "aioveuMallOmsMqConsumeIdempotent:mq-consume-idempotent",
   formItems: [
     {
       type: "input",
@@ -79,50 +79,50 @@ const searchConfig: ISearchConfig = reactive({
     },
     {
       type: "input",
-      label: "任务类型:send_retry",
-      prop: "taskType",
+      label: "业务唯一键",
+      prop: "bizUniqueKey",
       attrs: {
-        placeholder: "任务类型:send_retry",
+        placeholder: "业务唯一键",
         clearable: true,
         style: { width: "200px" },
       },
     },
     {
       type: "input",
-      label: "业务ID",
-      prop: "bizId",
+      label: "业务类型",
+      prop: "bizType",
       attrs: {
-        placeholder: "业务ID",
+        placeholder: "业务类型",
         clearable: true,
         style: { width: "200px" },
       },
     },
     {
       type: "input",
-      label: "业务数据",
-      prop: "bizData",
+      label: "消息ID",
+      prop: "messageId",
       attrs: {
-        placeholder: "业务数据",
+        placeholder: "消息ID",
         clearable: true,
         style: { width: "200px" },
       },
     },
     {
       type: "input",
-      label: "重试次数",
-      prop: "retryCount",
+      label: "消费时间",
+      prop: "consumeTime",
       attrs: {
-        placeholder: "重试次数",
+        placeholder: "消费时间",
         clearable: true,
         style: { width: "200px" },
       },
     },
     {
       type: "input",
-      label: "错误信息",
-      prop: "errorMsg",
+      label: "更新时间",
+      prop: "updateTime",
       attrs: {
-        placeholder: "错误信息",
+        placeholder: "更新时间",
         clearable: true,
         style: { width: "200px" },
       },
@@ -131,9 +131,9 @@ const searchConfig: ISearchConfig = reactive({
 });
 
 // 列表配置
-const contentConfig: IContentConfig<MqCompensationTaskPageQuery> = reactive({
+const contentConfig: IContentConfig<MqConsumeIdempotentPageQuery> = reactive({
   // 权限前缀
-  permPrefix: "aioveuMallPayMqCompensationTask:mq-compensation-task",
+  permPrefix: "aioveuMallOmsMqConsumeIdempotent:mq-consume-idempotent",
   table: {
     border: true,
     highlightCurrentRow: true,
@@ -141,9 +141,9 @@ const contentConfig: IContentConfig<MqCompensationTaskPageQuery> = reactive({
   // 主键
   pk: "id",
   // 列表查询接口
-  indexAction: MqCompensationTaskAPI.getPage,
+  indexAction: MqConsumeIdempotentAPI.getPage,
   // 删除接口
-  deleteAction: MqCompensationTaskAPI.deleteByIds,
+  deleteAction: MqConsumeIdempotentAPI.deleteByIds,
   // 数据解析函数
   parseData(res: any) {
     return {
@@ -164,7 +164,12 @@ const contentConfig: IContentConfig<MqCompensationTaskPageQuery> = reactive({
   // 表格列配置
   cols: [
     { type: "selection", width: 55, align: "center" },
-    { label: "", prop: "id" },
+    {
+      label: "",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "id",
+    },
     {
       label: "租户ID，0表示平台默认",
       width: 250, // 增加宽度以防止内容换行
@@ -172,52 +177,34 @@ const contentConfig: IContentConfig<MqCompensationTaskPageQuery> = reactive({
       prop: "tenantId",
     },
     {
-      label: "任务类型:send_retry",
+      label: "业务唯一键",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "taskType",
+      prop: "bizUniqueKey",
     },
     {
-      label: "业务ID",
+      label: "业务类型",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "bizId",
+      prop: "bizType",
     },
     {
-      label: "业务数据",
+      label: "消息ID",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "bizData",
+      prop: "messageId",
     },
     {
-      label: "状态:0-待处理,1-处理中,2-成功,3-失败",
+      label: "状态:1-已处理",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
       prop: "status",
     },
     {
-      label: "重试次数",
+      label: "消费时间",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "retryCount",
-    },
-    {
-      label: "下次执行时间",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "nextExecuteTime",
-    },
-    {
-      label: "执行结果",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "executeResult",
-    },
-    {
-      label: "错误信息",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "errorMsg",
+      prop: "consumeTime",
     },
     {
       label: "逻辑删除：0-未删除 1-已删除",
@@ -248,9 +235,9 @@ const contentConfig: IContentConfig<MqCompensationTaskPageQuery> = reactive({
 });
 
 // 新增配置
-const addModalConfig: IModalConfig<MqCompensationTaskForm> = reactive({
+const addModalConfig: IModalConfig<MqConsumeIdempotentForm> = reactive({
   // 权限前缀
-  permPrefix: "aioveuMallPayMqCompensationTask:mq-compensation-task",
+  permPrefix: "aioveuMallOmsMqConsumeIdempotent:mq-consume-idempotent",
   // 主键
   pk: "id",
   // 弹窗配置
@@ -284,28 +271,29 @@ const addModalConfig: IModalConfig<MqCompensationTaskForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "任务类型:send_retry",
+        placeholder: "业务唯一键",
       },
-      rules: [{ required: true, message: "任务类型:send_retry不能为空", trigger: "blur" }],
-      label: "任务类型:send_retry",
-      prop: "taskType",
+      rules: [{ required: true, message: "业务唯一键不能为空", trigger: "blur" }],
+      label: "业务唯一键",
+      prop: "bizUniqueKey",
     },
     {
       type: "input",
       attrs: {
-        placeholder: "业务ID",
+        placeholder: "业务类型",
       },
-      rules: [{ required: true, message: "业务ID不能为空", trigger: "blur" }],
-      label: "业务ID",
-      prop: "bizId",
+      rules: [{ required: true, message: "业务类型不能为空", trigger: "blur" }],
+      label: "业务类型",
+      prop: "bizType",
     },
     {
       type: "input",
       attrs: {
-        placeholder: "业务数据",
+        placeholder: "消息ID",
       },
-      label: "业务数据",
-      prop: "bizData",
+      rules: [{ required: true, message: "消息ID不能为空", trigger: "blur" }],
+      label: "消息ID",
+      prop: "messageId",
     },
     {
       type: "switch",
@@ -316,65 +304,34 @@ const addModalConfig: IModalConfig<MqCompensationTaskForm> = reactive({
         inactiveValue: 0,
       },
       initialValue: 1,
-      label: "状态:0-待处理,1-处理中,2-成功,3-失败",
+      label: "状态:1-已处理",
       prop: "status",
     },
     {
       type: "input",
       attrs: {
-        placeholder: "重试次数",
+        placeholder: "消费时间",
       },
-      label: "重试次数",
-      prop: "retryCount",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "下次执行时间",
-      },
-      label: "下次执行时间",
-      prop: "nextExecuteTime",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "执行结果",
-      },
-      label: "执行结果",
-      prop: "executeResult",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "错误信息",
-      },
-      label: "错误信息",
-      prop: "errorMsg",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "逻辑删除：0-未删除 1-已删除",
-      },
-      label: "逻辑删除：0-未删除 1-已删除",
-      prop: "isDeleted",
+      rules: [{ required: true, message: "消费时间不能为空", trigger: "blur" }],
+      label: "消费时间",
+      prop: "consumeTime",
     },
   ],
   // 提交函数
-  formAction: (data: MqCompensationTaskForm) => {
+  formAction: (data: MqConsumeIdempotentForm) => {
     if (data.id) {
       // 编辑
-      return MqCompensationTaskAPI.update(data.id as number, data);
+      return MqConsumeIdempotentAPI.update(data.id as number, data);
     } else {
       // 新增
-      return MqCompensationTaskAPI.create(data);
+      return MqConsumeIdempotentAPI.create(data);
     }
   },
 });
 
 // 编辑配置
-const editModalConfig: IModalConfig<MqCompensationTaskForm> = reactive({
-  permPrefix: "aioveuMallPayMqCompensationTask:mq-compensation-task",
+const editModalConfig: IModalConfig<MqConsumeIdempotentForm> = reactive({
+  permPrefix: "aioveuMallOmsMqConsumeIdempotent:mq-consume-idempotent",
   component: "drawer",
   drawer: {
     title: "编辑",
@@ -386,7 +343,7 @@ const editModalConfig: IModalConfig<MqCompensationTaskForm> = reactive({
   },
   pk: "id",
   formAction(data: any) {
-    return MqCompensationTaskAPI.update(data.id as number, data);
+    return MqConsumeIdempotentAPI.update(data.id as number, data);
   },
   formItems: addModalConfig.formItems, // 复用新增的表单项
 });
@@ -395,7 +352,7 @@ const editModalConfig: IModalConfig<MqCompensationTaskForm> = reactive({
 const handleOperateClick = (data: IObject) => {
   if (data.name === "edit") {
     handleEditClick(data.row, async () => {
-      return await MqCompensationTaskAPI.getFormData(data.row.id);
+      return await MqConsumeIdempotentAPI.getFormData(data.row.id);
     });
   }
 };

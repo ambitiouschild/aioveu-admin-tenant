@@ -37,13 +37,13 @@
 </template>
 
 <script setup lang="ts">
-defineOptions({ name: "MqSendRecord" });
+defineOptions({ name: "MqDeadLetter" });
 
-import MqSendRecordAPI, {
-  MqSendRecordForm,
-  MqSendRecordPageQuery,
-} from "@/api/aioveuMall/aioveuMallPay/aioveuMallPayMqSendRecord/mq-send-record";
-// import type { MqSendRecordForm, MqSendRecordPageQuery } from "@/api/types";
+import MqDeadLetterAPI, {
+  MqDeadLetterForm,
+  MqDeadLetterPageQuery,
+} from "@/api/aioveuMall/aioveuMallOms/aioveuMallOmsMqDeadLetter/mq-dead-letter";
+// import type { MqDeadLetterForm, MqDeadLetterPageQuery } from "@/api/types";
 import type { IObject, IModalConfig, IContentConfig, ISearchConfig } from "@/components/CURD/types";
 import usePage from "@/components/CURD/usePage";
 
@@ -65,7 +65,7 @@ const {
 
 // 搜索配置
 const searchConfig: ISearchConfig = reactive({
-  permPrefix: "aioveuMallPay:mq-send-record",
+  permPrefix: "aioveuMallOmsMqDeadLetter:mq-dead-letter",
   formItems: [
     {
       type: "input",
@@ -89,20 +89,10 @@ const searchConfig: ISearchConfig = reactive({
     },
     {
       type: "input",
-      label: "业务ID(支付单号)",
-      prop: "bizId",
+      label: "Topic",
+      prop: "topic",
       attrs: {
-        placeholder: "业务ID(支付单号)",
-        clearable: true,
-        style: { width: "200px" },
-      },
-    },
-    {
-      type: "input",
-      label: "业务类型:payment_success",
-      prop: "bizType",
-      attrs: {
-        placeholder: "业务类型:payment_success",
+        placeholder: "Topic",
         clearable: true,
         style: { width: "200px" },
       },
@@ -119,30 +109,10 @@ const searchConfig: ISearchConfig = reactive({
     },
     {
       type: "input",
-      label: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败",
-      prop: "sendStatus",
+      label: "业务ID",
+      prop: "bizId",
       attrs: {
-        placeholder: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败",
-        clearable: true,
-        style: { width: "200px" },
-      },
-    },
-    {
-      type: "input",
-      label: "发送时间",
-      prop: "sendTime",
-      attrs: {
-        placeholder: "发送时间",
-        clearable: true,
-        style: { width: "200px" },
-      },
-    },
-    {
-      type: "input",
-      label: "确认时间",
-      prop: "confirmTime",
-      attrs: {
-        placeholder: "确认时间",
+        placeholder: "业务ID",
         clearable: true,
         style: { width: "200px" },
       },
@@ -161,9 +131,9 @@ const searchConfig: ISearchConfig = reactive({
 });
 
 // 列表配置
-const contentConfig: IContentConfig<MqSendRecordPageQuery> = reactive({
+const contentConfig: IContentConfig<MqDeadLetterPageQuery> = reactive({
   // 权限前缀
-  permPrefix: "aioveuMallPay:mq-send-record",
+  permPrefix: "aioveuMallOmsMqDeadLetter:mq-dead-letter",
   table: {
     border: true,
     highlightCurrentRow: true,
@@ -171,9 +141,9 @@ const contentConfig: IContentConfig<MqSendRecordPageQuery> = reactive({
   // 主键
   pk: "id",
   // 列表查询接口
-  indexAction: MqSendRecordAPI.getPage,
+  indexAction: MqDeadLetterAPI.getPage,
   // 删除接口
-  deleteAction: MqSendRecordAPI.deleteByIds,
+  deleteAction: MqDeadLetterAPI.deleteByIds,
   // 数据解析函数
   parseData(res: any) {
     return {
@@ -213,18 +183,6 @@ const contentConfig: IContentConfig<MqSendRecordPageQuery> = reactive({
       prop: "messageId",
     },
     {
-      label: "业务ID(支付单号)",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "bizId",
-    },
-    {
-      label: "业务类型:payment_success",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "bizType",
-    },
-    {
       label: "Topic",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
@@ -237,58 +195,58 @@ const contentConfig: IContentConfig<MqSendRecordPageQuery> = reactive({
       prop: "tag",
     },
     {
-      label: "分片Key",
+      label: "消费者组",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "shardingKey",
+      prop: "consumerGroup",
     },
     {
-      label: "消息体(JSON格式)",
+      label: "业务ID",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "bizId",
+    },
+    {
+      label: "消息体",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
       prop: "messageBody",
     },
     {
-      label: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败",
+      label: "消费次数",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "sendStatus",
-    },
-    {
-      label: "重试次数",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "retryCount",
-    },
-    {
-      label: "最大重试次数",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "maxRetry",
-    },
-    {
-      label: "下次重试时间",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "nextRetryTime",
-    },
-    {
-      label: "发送时间",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "sendTime",
-    },
-    {
-      label: "确认时间",
-      width: 250, // 增加宽度以防止内容换行
-      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
-      prop: "confirmTime",
+      prop: "consumeTimes",
     },
     {
       label: "错误信息",
       width: 250, // 增加宽度以防止内容换行
       showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
       prop: "errorMsg",
+    },
+    {
+      label: "死信原因",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "deadReason",
+    },
+    {
+      label: "处理状态:0-未处理,1-已处理",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "handleStatus",
+    },
+    {
+      label: "处理时间",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "handleTime",
+    },
+    {
+      label: "处理结果",
+      width: 250, // 增加宽度以防止内容换行
+      showOverflowTooltip: true, // 推荐：超出宽度显示 tooltip 提示
+      prop: "handleResult",
     },
     {
       label: "逻辑删除：0-未删除 1-已删除",
@@ -319,9 +277,9 @@ const contentConfig: IContentConfig<MqSendRecordPageQuery> = reactive({
 });
 
 // 新增配置
-const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
+const addModalConfig: IModalConfig<MqDeadLetterForm> = reactive({
   // 权限前缀
-  permPrefix: "aioveuMallPay:mq-send-record",
+  permPrefix: "aioveuMallOmsMqDeadLetter:mq-dead-letter",
   // 主键
   pk: "id",
   // 弹窗配置
@@ -364,24 +322,6 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "业务ID(支付单号)",
-      },
-      rules: [{ required: true, message: "业务ID(支付单号)不能为空", trigger: "blur" }],
-      label: "业务ID(支付单号)",
-      prop: "bizId",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "业务类型:payment_success",
-      },
-      rules: [{ required: true, message: "业务类型:payment_success不能为空", trigger: "blur" }],
-      label: "业务类型:payment_success",
-      prop: "bizType",
-    },
-    {
-      type: "input",
-      attrs: {
         placeholder: "Topic",
       },
       rules: [{ required: true, message: "Topic不能为空", trigger: "blur" }],
@@ -399,74 +339,37 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     {
       type: "input",
       attrs: {
-        placeholder: "分片Key",
+        placeholder: "消费者组",
       },
-      label: "分片Key",
-      prop: "shardingKey",
+      rules: [{ required: true, message: "消费者组不能为空", trigger: "blur" }],
+      label: "消费者组",
+      prop: "consumerGroup",
     },
     {
       type: "input",
       attrs: {
-        placeholder: "消息体(JSON格式)",
+        placeholder: "业务ID",
       },
-      rules: [{ required: true, message: "消息体(JSON格式)不能为空", trigger: "blur" }],
-      label: "消息体(JSON格式)",
+      rules: [{ required: true, message: "业务ID不能为空", trigger: "blur" }],
+      label: "业务ID",
+      prop: "bizId",
+    },
+    {
+      type: "input",
+      attrs: {
+        placeholder: "消息体",
+      },
+      rules: [{ required: true, message: "消息体不能为空", trigger: "blur" }],
+      label: "消息体",
       prop: "messageBody",
     },
     {
       type: "input",
       attrs: {
-        placeholder: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败",
+        placeholder: "消费次数",
       },
-      rules: [
-        {
-          required: true,
-          message: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败不能为空",
-          trigger: "blur",
-        },
-      ],
-      label: "发送状态:0-未发送,1-发送中,2-发送成功,3-发送失败",
-      prop: "sendStatus",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "重试次数",
-      },
-      label: "重试次数",
-      prop: "retryCount",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "最大重试次数",
-      },
-      label: "最大重试次数",
-      prop: "maxRetry",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "下次重试时间",
-      },
-      label: "下次重试时间",
-      prop: "nextRetryTime",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "发送时间",
-      },
-      label: "发送时间",
-      prop: "sendTime",
-    },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "确认时间",
-      },
-      label: "确认时间",
-      prop: "confirmTime",
+      label: "消费次数",
+      prop: "consumeTimes",
     },
     {
       type: "input",
@@ -476,22 +379,54 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
       label: "错误信息",
       prop: "errorMsg",
     },
+    {
+      type: "input",
+      attrs: {
+        placeholder: "死信原因",
+      },
+      label: "死信原因",
+      prop: "deadReason",
+    },
+    {
+      type: "input",
+      attrs: {
+        placeholder: "处理状态:0-未处理,1-已处理",
+      },
+      label: "处理状态:0-未处理,1-已处理",
+      prop: "handleStatus",
+    },
+    {
+      type: "input",
+      attrs: {
+        placeholder: "处理时间",
+      },
+      label: "处理时间",
+      prop: "handleTime",
+    },
+    {
+      type: "input",
+      attrs: {
+        placeholder: "处理结果",
+      },
+      label: "处理结果",
+      prop: "handleResult",
+    },
   ],
   // 提交函数
-  formAction: (data: MqSendRecordForm) => {
+  formAction: (data: MqDeadLetterForm) => {
     if (data.id) {
       // 编辑
-      return MqSendRecordAPI.update(data.id as number, data);
+      return MqDeadLetterAPI.update(data.id as number, data);
     } else {
       // 新增
-      return MqSendRecordAPI.create(data);
+      return MqDeadLetterAPI.create(data);
     }
   },
 });
 
 // 编辑配置
-const editModalConfig: IModalConfig<MqSendRecordForm> = reactive({
-  permPrefix: "aioveuMallPay:mq-send-record",
+const editModalConfig: IModalConfig<MqDeadLetterForm> = reactive({
+  permPrefix: "aioveuMallOmsMqDeadLetter:mq-dead-letter",
   component: "drawer",
   drawer: {
     title: "编辑",
@@ -503,7 +438,7 @@ const editModalConfig: IModalConfig<MqSendRecordForm> = reactive({
   },
   pk: "id",
   formAction(data: any) {
-    return MqSendRecordAPI.update(data.id, data);
+    return MqDeadLetterAPI.update(data.id as number, data);
   },
   formItems: addModalConfig.formItems, // 复用新增的表单项
 });
@@ -512,7 +447,7 @@ const editModalConfig: IModalConfig<MqSendRecordForm> = reactive({
 const handleOperateClick = (data: IObject) => {
   if (data.name === "edit") {
     handleEditClick(data.row, async () => {
-      return await MqSendRecordAPI.getFormData(data.row.id);
+      return await MqDeadLetterAPI.getFormData(data.row.id);
     });
   }
 };
