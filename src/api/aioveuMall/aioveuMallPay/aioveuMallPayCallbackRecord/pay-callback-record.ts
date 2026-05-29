@@ -2,7 +2,7 @@ import request from "@/utils/request";
 // import type { PayCallbackRecordForm, PayCallbackRecordPageQuery, PayCallbackRecordPageVo } from "@/api/types";
 import { BaseQueryParams, PageQuery } from "@/types";
 
-const PAY_CALLBACK_RECORD_BASE_URL = "/api/v1/pay-callback-record";
+const PAY_CALLBACK_RECORD_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-callback-record";
 const PAYMENT_BASE_URL = "/api/v1/pay-order";
 const PayCallbackRecordAPI = {
   /** 获取支付回调记录分页数据 */
