@@ -2,13 +2,13 @@ import request from "@/utils/request";
 // import type { MqSendRecordForm, MqSendRecordPageQuery, MqSendRecordPageVo } from "@/api/types";
 import { BaseQueryParams, PageQuery } from "@/types";
 
-const MQ_SEND_RECORD_BASE_URL = "/aioveu-tenant-pay/api/v1/mq-send-message";
+const MQ_SEND_MESSAGE_BASE_URL = "/aioveu-tenant-pay/api/v1/mq-send-message";
 
 const MqSendRecordAPI = {
   /** 获取MQ消息发送记录分页数据 */
   getPage(queryParams?: MqSendRecordPageQuery) {
     return request<any, PageResult<MqSendRecordPageVo[]>>({
-      url: `${MQ_SEND_RECORD_BASE_URL}/page`,
+      url: `${MQ_SEND_MESSAGE_BASE_URL}/page`,
       method: "get",
       params: queryParams,
     });
@@ -21,7 +21,7 @@ const MqSendRecordAPI = {
    */
   getFormData(id: number) {
     return request<any, MqSendRecordForm>({
-      url: `${MQ_SEND_RECORD_BASE_URL}/${id}/form`,
+      url: `${MQ_SEND_MESSAGE_BASE_URL}/${id}/form`,
       method: "get",
     });
   },
@@ -33,7 +33,7 @@ const MqSendRecordAPI = {
    */
   create(data: MqSendRecordForm) {
     return request({
-      url: `${MQ_SEND_RECORD_BASE_URL}`,
+      url: `${MQ_SEND_MESSAGE_BASE_URL}`,
       method: "post",
       data,
     });
@@ -46,7 +46,7 @@ const MqSendRecordAPI = {
    */
   sendPaymentSuccessMessage(data: MqSendRecordForm) {
     return request({
-      url: `${MQ_SEND_RECORD_BASE_URL}/success`,
+      url: `${MQ_SEND_MESSAGE_BASE_URL}/success`,
       method: "post",
       data,
     });
@@ -59,7 +59,7 @@ const MqSendRecordAPI = {
    */
   sendPaymentFailedMessage(data: MqSendRecordForm) {
     return request({
-      url: `${MQ_SEND_RECORD_BASE_URL}/fail`,
+      url: `${MQ_SEND_MESSAGE_BASE_URL}/fail`,
       method: "post",
       data,
     });
@@ -73,7 +73,7 @@ const MqSendRecordAPI = {
    */
   update(id: number, data: MqSendRecordForm) {
     return request({
-      url: `${MQ_SEND_RECORD_BASE_URL}/${id}`,
+      url: `${MQ_SEND_MESSAGE_BASE_URL}/${id}`,
       method: "put",
       data,
     });
@@ -86,7 +86,7 @@ const MqSendRecordAPI = {
    */
   deleteByIds(ids: string) {
     return request({
-      url: `${MQ_SEND_RECORD_BASE_URL}/${ids}`,
+      url: `${MQ_SEND_MESSAGE_BASE_URL}/${ids}`,
       method: "delete",
     });
   },

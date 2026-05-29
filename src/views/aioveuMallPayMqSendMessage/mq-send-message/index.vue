@@ -347,14 +347,14 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
     //   label: "",
     //   prop: "id",
     // },
-    {
-      type: "input",
-      attrs: {
-        placeholder: "租户ID，0表示平台默认",
-      },
-      label: "租户ID，0表示平台默认",
-      prop: "tenantId",
-    },
+    // {
+    //   type: "input",
+    //   attrs: {
+    //     placeholder: "租户ID，0表示平台默认",
+    //   },
+    //   label: "租户ID，0表示平台默认",
+    //   prop: "tenantId",
+    // },
     {
       type: "input",
       attrs: {
@@ -362,7 +362,7 @@ const addModalConfig: IModalConfig<MqSendRecordForm> = reactive({
       },
       rules: [{ required: true, message: "支付订单号", trigger: "blur" }],
       label: "支付订单号",
-      prop: "payOrderNo",
+      prop: "paymentNo",
     },
     // {
     //   type: "input",
