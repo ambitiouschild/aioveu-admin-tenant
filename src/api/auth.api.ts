@@ -1,7 +1,13 @@
 import request from "@/utils/request";
 import type { LoginRequest, LoginResponse, CaptchaInfo } from "@/types/api/auth";
-import type { TenantItem  } from "@/types/api";
-
+import type { TenantItem } from "@/types/api";
+import {
+  CLIENT_CONFIG,
+  setClientId,
+  getClientId,
+  clearClientId,
+  detectClientId,
+} from "@/utils/clientManager";
 const AUTH_BASE_URL = "/aioveu-tenant-auth/api/v1/auth";
 const AUTH_LOGIN_URL = "/aioveu-tenant-auth";
 
@@ -21,21 +27,30 @@ const AuthAPI = {
       payload.tenantId = data.tenantId;
     }
 
+    const clientId = getClientId() || CLIENT_CONFIG.CLIENT_ID;
+    console.log("登录使用客户端ID:", clientId);
+    const basicAuth = CLIENT_CONFIG.getBASIC_AUTH();
+    console.log("动态生成的认证头:", basicAuth);
+
+
     return request<any, LoginResponse>({
       url: `${AUTH_LOGIN_URL}/oauth2/token`,
       method: "post",
       data: payload,
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: "Basic bWFsbC1hZG1pbjoxMjM0NTY=", // 客户端信息Base64明文：mall-admin:123456
+        // Authorization: "Basic bWFsbC1hZG1pbjoxMjM0NTY=", // 客户端信息Base64明文：mall-admin:123456
+        Authorization: basicAuth, // 客户端信息Base64明文：mall-admin:123456
       },
-    }).then(response => {
-      console.log("✅ 登录响应:", response);
-      return response;
-    }).catch(error => {
-      console.error("❌ 登录错误:", error);
-      throw error;
-    });
+    })
+      .then((response) => {
+        console.log("✅ 登录响应:", response);
+        return response;
+      })
+      .catch((error) => {
+        console.error("❌ 登录错误:", error);
+        throw error;
+      });
   },
 
 

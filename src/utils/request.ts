@@ -5,7 +5,7 @@ import { useUserStoreHook } from "@/store/modules/user";
 import { useTenantStoreHook } from "@/store/modules/tenant";
 import { usePermissionStoreHook } from "@/store/modules/permission";
 import { AuthStorage, redirectToLogin } from "@/utils/auth";
-
+import { CLIENT_CONFIG, getClientId } from "@/utils/clientManager";
 // ============================================
 // HTTP 请求实例
 // ============================================
@@ -23,26 +23,31 @@ const http = axios.create({
 
 http.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    // ✅ 公共接口：统一加 X-Client-Id（重点）
+    const clientId = getClientId() || CLIENT_CONFIG.CLIENT_ID;
+    console.log("登录使用的客户端ID:", clientId);
 
-
+    if (clientId) {
+      config.headers = config.headers || {};
+      config.headers["X-Client-Id"] = clientId;
+    }
     const tenantStore = useTenantStoreHook();
     // 从本地存储获取租户ID
     const tenantId = tenantStore.currentTenantId;
-    console.log("tenantStore获取tenantId2是什么：",tenantId);
-
+    console.log("tenantStore获取tenantId2是什么：", tenantId);
 
     // 从本地存储获取租户ID
     const tenantId2 = AuthStorage.getLastSelectedTenant()?.tenantId;
 
-    console.log("AuthStorage获取tenantId2是什么：",tenantId2);
+    console.log("AuthStorage获取tenantId2是什么：", tenantId2);
     // 如果有租户ID，添加到Header
     if (tenantId) {
-      config.headers['X-Tenant-ID'] = tenantId;
+      config.headers["X-Tenant-ID"] = tenantId;
     }
-    console.log("如果有租户ID:{},添加到Header：",tenantId);
+    console.log("如果有租户ID:{},添加到Header：", tenantId);
 
     const token = AuthStorage.getAccessToken();
-    console.log("token是什么：",token);
+    console.log("token是什么：", token);
 
     if (config.headers.Authorization === "no-auth") {
       delete config.headers.Authorization;
