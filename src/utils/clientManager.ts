@@ -221,21 +221,40 @@ console.log(`验证结果:`, result); // { valid: true, clientId: 'mall-app' }
  * 客户端ID管理器
  * 用于管理不同租户的客户端ID
  */
-// 设置客户端ID
+/**
+ * 设置客户端ID（浏览器版）
+ */
 export function setClientId(clientId: string) {
   // 存储到本地存储
-  localStorage.setStorageSync(CLIENT_KEY, clientId);
+  try {
+    localStorage.setItem(CLIENT_KEY, clientId);
+  } catch (e) {
+    console.warn("setClientId 失败", e);
+  }
 }
 
-// 获取客户端ID
+/**
+ * 获取客户端ID（浏览器版）
+ */
 export function getClientId(): string {
   // 从本地存储获取
-  return localStorage.getStorageSync(CLIENT_KEY) || "";
+  try {
+    return localStorage.getItem(CLIENT_KEY) || "";
+  } catch (e) {
+    console.warn("getClientId 失败", e);
+    return "";
+  }
 }
 
-// 清除 客户端ID
+/**
+ * 清除客户端ID
+ */
 export function clearClientId() {
-  localStorage.removeStorageSync(CLIENT_KEY);
+  try {
+    localStorage.removeItem(CLIENT_KEY);
+  } catch (e) {
+    console.warn("clearClientId 失败", e);
+  }
 }
 
 // 自动检测客户端ID
