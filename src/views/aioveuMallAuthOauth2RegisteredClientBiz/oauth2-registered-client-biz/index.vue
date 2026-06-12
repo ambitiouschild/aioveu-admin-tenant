@@ -217,6 +217,15 @@ const addModalConfig: IModalConfig<Oauth2RegisteredClientBizForm> = reactive({
     {
       type: "input",
       attrs: {
+        placeholder: "OAuth2 客户端UUID",
+      },
+      rules: [{ required: true, message: "OAuth2 客户端UUID不能为空", trigger: "blur" }],
+      label: "OAuth2 客户端UUID",
+      prop: "clientUUId",
+    },
+    {
+      type: "input",
+      attrs: {
         placeholder: "OAuth2 客户端ID",
       },
       rules: [{ required: true, message: "OAuth2 客户端ID不能为空", trigger: "blur" }],
