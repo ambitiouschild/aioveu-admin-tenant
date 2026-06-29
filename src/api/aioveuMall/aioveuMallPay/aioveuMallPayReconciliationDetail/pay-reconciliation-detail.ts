@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const PAYRECONCILIATIONDETAIL_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-reconciliation-detail";
+const PAYRECONCILIATIONDETAIL_BASE_URL = "/aioveu/api/v8/admin/pay/pay-reconciliation-detail";
 
 const PayReconciliationDetailAPI = {
     /** 获取对账明细分页数据 */

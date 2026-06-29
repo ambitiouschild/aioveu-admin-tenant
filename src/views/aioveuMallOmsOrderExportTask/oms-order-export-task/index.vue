@@ -449,4 +449,36 @@ const handleOperateClick = (data: IObject) => {
 const handleToolbarClick = (name: string) => {
   console.log(name);
 };
+
+const handleDownload = async (exportNo: string) => {
+  try {
+    const res = await OmsOrderExportTaskAPI.downloadExportFile(exportNo);
+
+    // 1️⃣ 从 response headers 拿文件名
+    const disposition = res.headers["content-disposition"];
+    let fileName = "订单导出.xlsx";
+
+    if (disposition) {
+      const match = disposition.match(/filename\*=UTF-8''(.+)/);
+      if (match) {
+        fileName = decodeURIComponent(match[1]);
+      }
+    }
+
+    // 2️创建 blob 并下载
+    const blob = new Blob([res.data], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+
+    window.URL.revokeObjectURL(link.href);
+  } catch (error) {
+    console.error("下载失败", error);
+    // uni.showToast({ title: "下载失败", icon: "none" });
+  }
+};
 </script>

@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import type { NoticeQueryParams, NoticeForm, NoticeItem, NoticeDetail } from "@/types/api";
 
-const NOTICE_BASE_URL = "/aioveu-tenant/api/v1/notices";
+const NOTICE_BASE_URL = "/aioveu/api/v8/admin/tenant/notices";
 
 const NoticeAPI = {
   /** 获取通知公告分页数据 */

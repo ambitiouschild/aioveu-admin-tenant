@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const PAYACCOUNTFLOW_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-account-flow";
+const PAYACCOUNTFLOW_BASE_URL = "/aioveu/api/v8/admin/pay/pay-account-flow";
 
 const PayAccountFlowAPI = {
     /** 获取账户流水分页数据 */

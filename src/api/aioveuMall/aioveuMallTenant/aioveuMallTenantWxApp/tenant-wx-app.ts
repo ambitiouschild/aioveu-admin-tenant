@@ -2,7 +2,7 @@ import request from "@/utils/request";
 // import type { TenantWxAppForm, TenantWxAppPageQuery, TenantWxAppPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const TENANT_WX_APP_BASE_URL = "/aioveu-tenant/api/v1/tenant-wx-app";
+const TENANT_WX_APP_BASE_URL = "/aioveu/api/v8/admin/tenant/tenant-wx-app";
 
 const TenantWxAppAPI = {
     /** 获取租户与微信小程序关联分页数据 */

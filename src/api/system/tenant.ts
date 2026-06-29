@@ -8,7 +8,7 @@ import type {
   TenantItem,
 } from "@/types/api";
 
-const TENANT_BASE_URL = "/aioveu-tenant/api/v1/tenants";
+const TENANT_BASE_URL = "/aioveu/api/v8/admin/tenant/tenants";
 
 /**
  * 租户信息

@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {PageQuery} from "@/types";
 
-const OMSORDER_BASE_URL = "/aioveu-tenant-oms/api/v1/oms-order";
+const OMSORDER_BASE_URL = "/aioveu/api/v8/admin/oms/oms-order";
 
 const OmsOrderAPI = {
     /** 获取订单详情分页数据 */

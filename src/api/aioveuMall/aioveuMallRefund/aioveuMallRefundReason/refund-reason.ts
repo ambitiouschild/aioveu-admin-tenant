@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const REFUNDREASON_BASE_URL = "/aioveu-tenant-refund/api/v1/refund-reason";
+const REFUNDREASON_BASE_URL = "/aioveu/api/v8/admin/refund/refund-reason";
 
 const RefundReasonAPI = {
     /** 获取退款原因分类分页数据 */

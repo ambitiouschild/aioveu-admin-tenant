@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const OMSORDERPAY_BASE_URL = "/aioveu-tenant-oms/api/v1/oms-order-pay";
+const OMSORDERPAY_BASE_URL = "/aioveu/api/v8/admin/oms/oms-order-pay";
 
 const OmsOrderPayAPI = {
     /** 获取支付信息分页数据 */

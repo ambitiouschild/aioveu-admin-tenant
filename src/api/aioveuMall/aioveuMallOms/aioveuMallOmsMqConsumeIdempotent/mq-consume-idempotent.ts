@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { MqConsumeIdempotentForm, MqConsumeIdempotentPageQuery, MqConsumeIdempotentPageVo } from "@/api/types";
 import { PageQuery } from "@/types";
-const MQ_CONSUME_IDEMPOTENT_BASE_URL = "/aioveu-tenant-oms/api/v1/mq-consume-idempotent";
+const MQ_CONSUME_IDEMPOTENT_BASE_URL = "/aioveu/api/v8/admin/oms/mq-consume-idempotent";
 
 const MqConsumeIdempotentAPI = {
   /** 获取MQ消费幂等性分页数据 */

@@ -2,7 +2,7 @@ import request from "@/utils/request";
 // import type { Oauth2RegisteredClientBizForm, Oauth2RegisteredClientBizPageQuery, Oauth2RegisteredClientBizPageVo } from "@/api/types";
 import { BaseQueryParams, PageQuery } from "@/types";
 const OAUTH2_REGISTERED_CLIENT_BIZ_BASE_URL =
-  "/aioveu-tenant-auth/api/v1/oauth2-registered-client-biz";
+  "/aioveu/api/v8/admin/auth/oauth2-registered-client-biz";
 
 const Oauth2RegisteredClientBizAPI = {
   /** 获取OAuth2 客户端业务状态（auth 服务本地校验用）分页数据 */

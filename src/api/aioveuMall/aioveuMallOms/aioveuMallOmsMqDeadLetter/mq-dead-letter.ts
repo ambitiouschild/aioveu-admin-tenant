@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { MqDeadLetterForm, MqDeadLetterPageQuery, MqDeadLetterPageVo } from "@/api/types";
 import { PageQuery } from "@/types";
-const MQ_DEAD_LETTER_BASE_URL = "/aioveu-tenant-oms/api/v1/mq-dead-letter";
+const MQ_DEAD_LETTER_BASE_URL = "/aioveu/api/v8/admin/oms/mq-dead-letter";
 
 const MqDeadLetterAPI = {
   /** 获取MQ死信队列分页数据 */

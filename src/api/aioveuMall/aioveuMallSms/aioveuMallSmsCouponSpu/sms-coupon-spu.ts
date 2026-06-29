@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const SMSCOUPONSPU_BASE_URL = "/aioveu-tenant-sms/api/v1/sms-coupon-spu";
+const SMSCOUPONSPU_BASE_URL = "/aioveu/api/v8/admin/sms/sms-coupon-spu";
 
 const SmsCouponSpuAPI = {
     /** 获取优惠券适用的具体商品分页数据 */

@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { ManagerMenuCategoryItemForm, ManagerMenuCategoryItemPageQuery, ManagerMenuCategoryItemPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const MANAGER_MENU_CATEGORY_ITEM_BASE_URL = "/aioveu-tenant/api/v1/manager-menu-category-item";
+const MANAGER_MENU_CATEGORY_ITEM_BASE_URL = "/aioveu/api/v8/admin/tenant/manager-menu-category-item";
 
 const ManagerMenuCategoryItemAPI = {
     /** 获取管理系统工作台菜单项（多租户支持）分页数据 */

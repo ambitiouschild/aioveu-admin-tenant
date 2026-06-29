@@ -2,7 +2,7 @@ import request from "@/utils/request";
 // import type { Oauth2AuthorizationForm, Oauth2AuthorizationPageQuery, Oauth2AuthorizationPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const OAUTH2_AUTHORIZATION_BASE_URL = "/aioveu-tenant-auth/api/v1/oauth2-authorization";
+const OAUTH2_AUTHORIZATION_BASE_URL = "/aioveu/api/v8/admin/auth/oauth2-authorization";
 
 const Oauth2AuthorizationAPI = {
     /** 获取OAuth2授权信息，存储所有的授权记录、令牌和状态信息分页数据 */

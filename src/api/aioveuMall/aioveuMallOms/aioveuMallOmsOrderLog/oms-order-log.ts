@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const OMSORDERLOG_BASE_URL = "/aioveu-tenant-oms/api/v1/oms-order-log";
+const OMSORDERLOG_BASE_URL = "/aioveu/api/v8/admin/oms/oms-order-log";
 
 const OmsOrderLogAPI = {
     /** 获取订单操作历史记录分页数据 */

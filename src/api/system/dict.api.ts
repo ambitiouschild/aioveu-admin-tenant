@@ -10,7 +10,7 @@ import type {
   OptionItem,
 } from "@/types/api";
 
-const DICT_BASE_URL = "/aioveu-tenant/api/v1/dicts";
+const DICT_BASE_URL = "/aioveu/api/v8/admin/tenant/dicts";
 
 type DictTagTypeCode = "N" | "P" | "S" | "W" | "I" | "D";
 

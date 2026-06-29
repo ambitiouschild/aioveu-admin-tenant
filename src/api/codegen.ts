@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import type { GeneratorPreviewItem, TableQueryParams, TableItem, GenConfigForm } from "@/types/api";
 
-const GENERATOR_BASE_URL = "/aioveu-tenant/api/v1/codegen";
+const GENERATOR_BASE_URL = "/aioveu/api/v8/admin/tenant/codegen";
 
 const GeneratorAPI = {
   /** 获取数据表分页列表 */

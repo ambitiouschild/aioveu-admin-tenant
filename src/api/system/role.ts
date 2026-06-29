@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import type { RoleQueryParams, RoleItem, RoleForm, OptionItem } from "@/types/api";
 
-const ROLE_BASE_URL = "/aioveu-tenant/api/v1/roles";
+const ROLE_BASE_URL = "/aioveu/api/v8/admin/tenant/roles";
 
 const RoleAPI = {
   /** 获取角色分页数据 */

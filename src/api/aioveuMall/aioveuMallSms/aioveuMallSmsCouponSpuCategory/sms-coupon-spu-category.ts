@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const SMSCOUPONSPUCATEGORY_BASE_URL = "/aioveu-tenant-sms/api/v1/sms-coupon-spu-category";
+const SMSCOUPONSPUCATEGORY_BASE_URL = "/aioveu/api/v8/admin/sms/sms-coupon-spu-category";
 
 const SmsCouponSpuCategoryAPI = {
     /** 获取优惠券适用的具体分类分页数据 */

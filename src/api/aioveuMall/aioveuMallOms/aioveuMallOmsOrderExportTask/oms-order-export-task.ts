@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { OmsOrderExportTaskForm, OmsOrderExportTaskPageQuery, OmsOrderExportTaskPageVo } from "@/api/types";
 import { BaseQueryParams, PageQuery } from "@/types";
-const OMS_ORDER_EXPORT_TASK_BASE_URL = "/aioveu-tenant-oms/api/v1/oms-order-export-task";
+const OMS_ORDER_EXPORT_TASK_BASE_URL = "/aioveu/api/v8/admin/oms/oms-order-export-task";
 
 const OmsOrderExportTaskAPI = {
   /** 获取订单导出任务分页数据 */
@@ -61,6 +61,15 @@ const OmsOrderExportTaskAPI = {
     return request({
       url: `${OMS_ORDER_EXPORT_TASK_BASE_URL}/${ids}`,
       method: "delete",
+    });
+  },
+
+  downloadExportFile(exportNo: string) {
+    return request({
+      url: `${OMS_ORDER_EXPORT_TASK_BASE_URL}/export/download`,
+      method: "get",
+      data: { exportNo },
+      responseType: "blob", // ✅ 必须
     });
   },
 };

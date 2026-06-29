@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const SMSHOMECATEGORY_BASE_URL = "/aioveu-tenant-sms/api/v1/sms-home-category";
+const SMSHOMECATEGORY_BASE_URL = "/aioveu/api/v8/admin/sms/sms-home-category";
 
 const SmsHomeCategoryAPI = {
     /** 获取首页分类配置分页数据 */

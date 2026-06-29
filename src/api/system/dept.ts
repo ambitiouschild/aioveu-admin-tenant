@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import type { DeptQueryParams, DeptItem, DeptForm, OptionItem } from "@/types/api";
 
-const DEPT_BASE_URL = "/aioveu-tenant/api/v1/depts";
+const DEPT_BASE_URL = "/aioveu/api/v8/admin/tenant/depts";
 
 const DeptAPI = {
   /** 获取部门树形列表 */

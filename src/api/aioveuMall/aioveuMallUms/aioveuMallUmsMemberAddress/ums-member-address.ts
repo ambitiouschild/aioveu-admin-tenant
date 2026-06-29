@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const UMSMEMBERADDRESS_BASE_URL = "/aioveu-tenant-ums/api/v1/ums-member-address";
+const UMSMEMBERADDRESS_BASE_URL = "/aioveu/api/v8/admin/ums/ums-member-address";
 
 const UmsMemberAddressAPI = {
     /** 获取会员收货地址分页数据 */

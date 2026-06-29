@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import type { VisitTrendQueryParams, VisitTrendDetail, VisitStatsDetail } from "@/types/api";
 
-const STATISTICS_BASE_URL = "/aioveu-tenant/api/v1/statistics";
+const STATISTICS_BASE_URL = "/aioveu/api/v8/admin/tenant/statistics";
 
 const StatisticsAPI = {
   /** 获取访问趋势统计 */

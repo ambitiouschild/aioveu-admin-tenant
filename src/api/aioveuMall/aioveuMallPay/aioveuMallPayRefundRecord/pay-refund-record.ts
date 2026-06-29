@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const PAYREFUNDRECORD_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-refund-record";
+const PAYREFUNDRECORD_BASE_URL = "/aioveu/api/v8/admin/pay/pay-refund-record";
 
 const PayRefundRecordAPI = {
     /** 获取退款记录分页数据 */

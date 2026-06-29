@@ -13,7 +13,7 @@ import type {
   OptionItem,
 } from "@/types/api";
 
-const USER_BASE_URL = "/aioveu-tenant/api/v1/users";
+const USER_BASE_URL = "/aioveu/api/v8/admin/tenant/users";
 
 const UserAPI = {
   /**

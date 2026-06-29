@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const REFUNDPROOF_BASE_URL = "/aioveu-tenant-refund/api/v1/refund-proof";
+const REFUNDPROOF_BASE_URL = "/aioveu/api/v8/admin/refund/refund-proof";
 
 const RefundProofAPI = {
     /** 获取退款凭证图片分页数据 */

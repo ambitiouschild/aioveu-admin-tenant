@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { ManagerMenuHomeBannerForm, ManagerMenuHomeBannerPageQuery, ManagerMenuHomeBannerPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const MANAGER_MENU_HOME_BANNER_BASE_URL = "/aioveu-tenant/api/v1/manager-menu-home-banner";
+const MANAGER_MENU_HOME_BANNER_BASE_URL = "/aioveu/api/v8/admin/tenant/manager-menu-home-banner";
 
 const ManagerMenuHomeBannerAPI = {
     /** 获取管理端app首页滚播栏分页数据 */

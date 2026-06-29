@@ -2,7 +2,7 @@ import request from "@/utils/request";
 // import type { Oauth2AuthorizationConsentForm, Oauth2AuthorizationConsentPageQuery, Oauth2AuthorizationConsentPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const OAUTH2_AUTHORIZATION_CONSENT_BASE_URL = "/aioveu-tenant-auth/api/v1/oauth2-authorization-consent";
+const OAUTH2_AUTHORIZATION_CONSENT_BASE_URL = "/aioveu/api/v8/admin/auth/oauth2-authorization-consent";
 
 const Oauth2AuthorizationConsentAPI = {
     /** 获取OAuth2授权同意，记录用户对每个客户端的授权同意情况分页数据 */

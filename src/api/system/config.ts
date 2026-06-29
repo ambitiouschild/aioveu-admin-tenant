@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import type { ConfigQueryParams, ConfigForm, ConfigItem } from "@/types/api";
 
-const CONFIG_BASE_URL = "/aioveu-tenant/api/v1/configs";
+const CONFIG_BASE_URL = "/aioveu/api/v8/admin/tenant/configs";
 
 const ConfigAPI = {
   /** 获取配置分页数据 */

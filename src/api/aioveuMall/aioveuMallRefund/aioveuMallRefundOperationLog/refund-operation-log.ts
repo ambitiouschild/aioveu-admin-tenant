@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const REFUNDOPERATIONLOG_BASE_URL = "/aioveu-tenant-refund/api/v1/refund-operation-log";
+const REFUNDOPERATIONLOG_BASE_URL = "/aioveu/api/v8/admin/refund/refund-operation-log";
 
 const RefundOperationLogAPI = {
     /** 获取退款操作记录（用于审计）分页数据 */

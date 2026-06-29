@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const REFUNDITEM_BASE_URL = "/aioveu-tenant-refund/api/v1/refund-item";
+const REFUNDITEM_BASE_URL = "/aioveu/api/v8/admin/refund/refund-item";
 
 const RefundItemAPI = {
     /** 获取退款商品明细分页数据 */

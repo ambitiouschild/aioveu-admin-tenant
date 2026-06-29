@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { PayConfigDummyForm, PayConfigDummyPageQuery, PayConfigDummyPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const PAY_CONFIG_DUMMY_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-config-dummy";
+const PAY_CONFIG_DUMMY_BASE_URL = "/aioveu/api/v8/admin/pay/pay-config-dummy";
 
 const PayConfigDummyAPI = {
     /** 获取模拟支付配置分页数据 */

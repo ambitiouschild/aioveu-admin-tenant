@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const PAYCHANNELCONFIG_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-channel-config";
+const PAYCHANNELCONFIG_BASE_URL = "/aioveu/api/v8/admin/pay/pay-channel-config";
 
 const PayChannelConfigAPI = {
     /** 获取支付渠道配置分页数据 */

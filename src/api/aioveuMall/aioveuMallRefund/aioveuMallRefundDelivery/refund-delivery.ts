@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const REFUNDDELIVERY_BASE_URL = "/aioveu-tenant-refund/api/v1/refund-delivery";
+const REFUNDDELIVERY_BASE_URL = "/aioveu/api/v8/admin/refund/refund-delivery";
 
 const RefundDeliveryAPI = {
     /** 获取退款物流信息（用于退货）分页数据 */

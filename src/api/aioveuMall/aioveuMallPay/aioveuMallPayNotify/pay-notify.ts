@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const PAYNOTIFY_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-notify";
+const PAYNOTIFY_BASE_URL = "/aioveu/api/v8/admin/pay/pay-notify";
 
 const PayNotifyAPI = {
     /** 获取支付通知分页数据 */

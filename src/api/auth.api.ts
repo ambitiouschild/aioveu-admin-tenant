@@ -8,8 +8,7 @@ import {
   clearClientId,
   detectClientId,
 } from "@/utils/clientManager";
-const AUTH_BASE_URL = "/aioveu-tenant-auth/api/v1/auth";
-const AUTH_LOGIN_URL = "/aioveu-tenant-auth";
+const AUTH_BASE_URL = "/aioveu/api/v8/admin/auth/auth";
 
 const AuthAPI = {
   /** 登录接口*/
@@ -34,7 +33,7 @@ const AuthAPI = {
 
 
     return request<any, LoginResponse>({
-      url: `${AUTH_LOGIN_URL}/oauth2/token`,
+      url: `${AUTH_BASE_URL}/oauth2/token`,
       method: "post",
       data: payload,
       headers: {

@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { PayConfigForm, PayConfigPageQuery, PayConfigPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const PAY_CONFIG_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-config";
+const PAY_CONFIG_BASE_URL = "/aioveu/api/v8/admin/pay/pay-config";
 
 const PayConfigAPI = {
     /** 获取支付配置主表分页数据 */

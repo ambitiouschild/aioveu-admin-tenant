@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const SMSHOMEADVERT_BASE_URL = "/aioveu-tenant-sms/api/v1/sms-home-advert";
+const SMSHOMEADVERT_BASE_URL = "/aioveu/api/v8/admin/sms/sms-home-advert";
 
 const SmsHomeAdvertAPI = {
     /** 获取首页广告配置（增加跳转路径）分页数据 */

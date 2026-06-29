@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { PayConfigWechatForm, PayConfigWechatPageQuery, PayConfigWechatPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const PAY_CONFIG_WECHAT_BASE_URL = "/aioveu-tenant-pay/api/v1/pay-config-wechat";
+const PAY_CONFIG_WECHAT_BASE_URL = "/aioveu/api/v8/admin/pay/pay-config-wechat";
 
 const PayConfigWechatAPI = {
     /** 获取微信支付配置分页数据 */

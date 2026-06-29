@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { OauthClientWxAppForm, OauthClientWxAppPageQuery, OauthClientWxAppPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const OAUTH_CLIENT_WX_APP_BASE_URL = "/aioveu-tenant/api/v1/oauth-client-wx-app";
+const OAUTH_CLIENT_WX_APP_BASE_URL = "/aioveu/api/v8/admin/tenant/oauth-client-wx-app";
 
 const OauthClientWxAppAPI = {
     /** 获取OAuth2客户端与微信小程序映射分页数据 */

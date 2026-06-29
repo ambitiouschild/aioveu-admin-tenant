@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { ManagerMenuHomeCategoryForm, ManagerMenuHomeCategoryPageQuery, ManagerMenuHomeCategoryPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
-const MANAGER_MENU_HOME_CATEGORY_BASE_URL = "/aioveu-tenant/api/v1/manager-menu-home-category";
+const MANAGER_MENU_HOME_CATEGORY_BASE_URL = "/aioveu/api/v8/admin/tenant/manager-menu-home-category";
 
 const ManagerMenuHomeCategoryAPI = {
     /** 获取管理端app首页分类配置分页数据 */

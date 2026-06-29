@@ -3,7 +3,7 @@ import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
 
-const MANAGER_MENU_CATEGORY_BASE_URL = "/aioveu-tenant/api/v1/manager-menu-category";
+const MANAGER_MENU_CATEGORY_BASE_URL = "/aioveu/api/v8/admin/tenant/manager-menu-category";
 
 const ManagerMenuCategoryAPI = {
     /** 获取管理端菜单分类（多租户）分页数据 */

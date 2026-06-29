@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 // import type { MqConsumeRecordForm, MqConsumeRecordPageQuery, MqConsumeRecordPageVo } from "@/api/types";
 import { PageQuery } from "@/types";
-const MQ_CONSUME_RECORD_BASE_URL = "/aioveu-tenant-oms/api/v1/mq-consume-record";
+const MQ_CONSUME_RECORD_BASE_URL = "/aioveu/api/v8/admin/oms/mq-consume-record";
 
 const MqConsumeRecordAPI = {
   /** 获取MQ消息消费记录分页数据 */

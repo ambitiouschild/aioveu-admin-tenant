@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const UNDOLOG_BASE_URL = "/aioveu-tenant-oms/api/v1/undo-log";
+const UNDOLOG_BASE_URL = "/aioveu/api/v8/admin/oms/undo-log";
 
 const UndoLogAPI = {
     /** 获取AT transaction mode undo table分页数据 */

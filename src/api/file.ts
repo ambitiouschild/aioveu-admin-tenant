@@ -2,7 +2,7 @@ import request from "@/utils/request";
 import type { FileInfo } from "@/types/api";
 
 
-const FILE_BASE_URL = "/aioveu-tenant/api/v1/files";
+const FILE_BASE_URL = "/aioveu/api/v8/admin/tenant/files";
 
 const FileAPI = {
   /** 上传文件 （传入 FormData，上传进度回调） */

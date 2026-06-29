@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const UMSMEMBER_BASE_URL = "/aioveu-tenant-ums/api/v1/ums-member";
+const UMSMEMBER_BASE_URL = "/aioveu/api/v8/admin/ums/ums-member";
 
 const UmsMemberAPI = {
     /** 获取会员分页数据 */

@@ -2,7 +2,7 @@ import request from "@/utils/request";
 // import type { Oauth2RegisteredClientForm, Oauth2RegisteredClientPageQuery, Oauth2RegisteredClientPageVo } from "@/api/types";
 import {BaseQueryParams, PageQuery} from "@/types";
 
-const OAUTH2_REGISTERED_CLIENT_BASE_URL = "/aioveu-tenant-auth/api/v1/oauth2-registered-client";
+const OAUTH2_REGISTERED_CLIENT_BASE_URL = "/aioveu/api/v8/admin/auth/oauth2-registered-client";
 
 const Oauth2RegisteredClientAPI = {
     /** 获取OAuth2注册客户端，存储所有已注册的客户端应用信息分页数据 */

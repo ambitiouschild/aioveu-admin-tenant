@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 import type { LogQueryParams, LogItem } from "@/types/api";
 
-const LOG_BASE_URL = "/aioveu-tenant/api/v1/logs";
+const LOG_BASE_URL = "/aioveu/api/v8/admin/tenant/logs";
 
 const LogAPI = {
   /** 获取日志分页列表 */
