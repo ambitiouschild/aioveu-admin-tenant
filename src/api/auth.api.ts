@@ -33,7 +33,8 @@ const AuthAPI = {
 
 
     return request<any, LoginResponse>({
-      url: `${AUTH_BASE_URL}/oauth2/token`,
+      // url: `${AUTH_BASE_URL}/oauth2/token`,
+      url: `/oauth2/token`,
       method: "post",
       data: payload,
       headers: {
@@ -54,14 +55,7 @@ const AuthAPI = {
 
 
 
-  /** 一次查询获取用户名在所有租户中的可访问租户  方案1：使用模板字符串（推荐）*/
-  getAccessibleTenantsByUsername(username: String) {
-    return request<TenantItem[]>({
-      url: `${AUTH_BASE_URL}/tenants/${username}`,  // 使用模板字符串
-      method: "get",
-      // 不需要params了，因为username已经在URL中了
-    });
-  },
+
 
   /** 切换租户(平台用户) - 返回新的 token */
   switchTenant(tenantId: number) {

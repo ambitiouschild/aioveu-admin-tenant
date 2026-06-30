@@ -48,7 +48,7 @@
             </div>
           </template>
 
-<!--          这样修改后，当用户输入用户名时，租户选择框会立即显示，并展示"加载租户列表中..."的提示，加载完成后显示实际的租户列表或"无可用租户"的提示，用户体验会好很多。-->
+          <!--          这样修改后，当用户输入用户名时，租户选择框会立即显示，并展示"加载租户列表中..."的提示，加载完成后显示实际的租户列表或"无可用租户"的提示，用户体验会好很多。-->
 
           <!-- 加载完成后的选项 -->
           <el-option
@@ -184,13 +184,14 @@
 </template>
 <script setup lang="ts">
 import type { FormInstance } from "element-plus";
-import { User, Lock, Loading, OfficeBuilding } from '@element-plus/icons-vue';
+import { User, Lock, Loading, OfficeBuilding } from "@element-plus/icons-vue";
 import AuthAPI from "@/api/auth.api";
-import type { LoginRequest , TenantItem  } from "@/types/api";
+import type { LoginRequest, TenantItem } from "@/types/api";
 import router from "@/router";
 import { useUserStore } from "@/store";
 import { AuthStorage } from "@/utils/auth";
-import { debounce } from 'lodash-es';
+import { debounce } from "lodash-es";
+import UserAPI from "@/api/system/user";
 
 const { t } = useI18n();
 const userStore = useUserStore();
@@ -211,7 +212,6 @@ const captchaBase64 = ref();
 
 const tenantLoading = ref(false);
 const tenantList = ref<TenantItem[]>([]); // 数组字面量语法
-
 
 // 是否显示租户选择框
 const showTenantSelect = ref(false);
@@ -303,12 +303,11 @@ const handleUsernameBlur = debounce(async () => {
     return;
   }
 
-  console.log("用户名失去焦点时加载租户",loginFormData.value.username);
+  console.log("用户名失去焦点时加载租户", loginFormData.value.username);
   // 立即显示租户选择框（即使还在加载中）
   showTenantSelect.value = true;
   await loadTenants();
 }, 300);
-
 
 // 用户名清空时重置租户
 function handleUsernameClear() {
@@ -330,15 +329,13 @@ async function loadTenants() {
   tenantLoading.value = true;
 
   try {
+    console.log("登录用户名:{}", loginFormData.value.username);
+    const response = await UserAPI.getAccessibleTenantsByUsername(loginFormData.value.username);
 
-    console.log("登录用户名:{}",loginFormData.value.username);
-    const response  = await AuthAPI.getAccessibleTenantsByUsername(loginFormData.value.username);
+    console.log("一次查询获取用户名在所有租户中的可访问租户:{}", response); //如果字段基本一致，可以安全断言
+    tenantList.value = (response as unknown as TenantItem[]) || [];
 
-    console.log("一次查询获取用户名在所有租户中的可访问租户:{}",response); //如果字段基本一致，可以安全断言
-    tenantList.value = response as unknown as TenantItem[] || [];
-
-    console.log("一次查询获取用户名在所有租户中的可访问租户tenantList:{}",tenantList.value);
-
+    console.log("一次查询获取用户名在所有租户中的可访问租户tenantList:{}", tenantList.value);
 
     if (tenantList.value.length > 0) {
       showTenantSelect.value = true;
@@ -352,7 +349,7 @@ async function loadTenants() {
         // 多个租户，尝试使用上次的选择
         const lastTenant = AuthStorage.getLastSelectedTenant();
         if (lastTenant && lastTenant.username === loginFormData.value.username) {
-          const exists = tenantList.value.some(tenant => tenant.id === lastTenant.tenantId);
+          const exists = tenantList.value.some((tenant) => tenant.id === lastTenant.tenantId);
           if (exists) {
             loginFormData.value.tenantId = lastTenant.tenantId;
           }
@@ -363,7 +360,7 @@ async function loadTenants() {
       loginFormData.value.tenantId = undefined;
     }
   } catch (error) {
-    console.error('加载租户列表失败:', error);
+    console.error("加载租户列表失败:", error);
     tenantList.value = [];
     // 出错时仍然显示选择框，但显示错误状态
     showTenantSelect.value = true;
@@ -378,7 +375,7 @@ function handleTenantChange(tenantId: number) {
     // 保存到本地存储
     AuthStorage.setLastSelectedTenant({
       username: loginFormData.value.username,
-      tenantId: tenantId
+      tenantId: tenantId,
     });
   }
 }
@@ -417,12 +414,11 @@ async function handleLoginSubmit() {
     console.log("2. 执行登录（调用Pinia action）");
     await userStore.login(loginFormData.value).then(
       async () => {
-
         // 登录成功，保存租户选择
         if (loginFormData.value.tenantId && loginFormData.value.username) {
           AuthStorage.setLastSelectedTenant({
             username: loginFormData.value.username,
-            tenantId: loginFormData.value.tenantId
+            tenantId: loginFormData.value.tenantId,
           });
         }
 

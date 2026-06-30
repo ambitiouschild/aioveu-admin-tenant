@@ -11,6 +11,8 @@ import type {
   MobileUpdateForm,
   EmailUpdateForm,
   OptionItem,
+  TenantInfo,
+  TenantItem,
 } from "@/types/api";
 
 const USER_BASE_URL = "/aioveu/api/v8/admin/tenant/users";
@@ -25,6 +27,15 @@ const UserAPI = {
     return request<any, UserInfo>({
       url: `${USER_BASE_URL}/me`,
       method: "get",
+    });
+  },
+
+  /** 一次查询获取用户名在所有租户中的可访问租户  方案1：使用模板字符串（推荐）*/
+  getAccessibleTenantsByUsername(username: string) {
+    return request<TenantItem[]>({
+      url: `${USER_BASE_URL}/tenants/${username}`, // 使用模板字符串
+      method: "get",
+      // 不需要params了，因为username已经在URL中了
     });
   },
 

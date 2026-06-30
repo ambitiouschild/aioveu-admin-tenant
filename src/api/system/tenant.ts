@@ -6,6 +6,7 @@ import type {
   TenantCreateResult,
   TenantQueryParams,
   TenantItem,
+  LoginResponse,
 } from "@/types/api";
 
 const TENANT_BASE_URL = "/aioveu/api/v8/admin/tenant/tenants";
@@ -24,6 +25,8 @@ const TenantAPI = {
       method: "get",
     });
   },
+
+
 
   /**
    * 获取当前租户信息
